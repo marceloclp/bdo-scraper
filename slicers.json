@@ -1,0 +1,15 @@
+{
+    "BUY_US":         "Buy price: ",
+    "SELL_US":        "Sell price: ",
+    "REPAIR_US":      "Repair price: ",
+    "EFFECT_US":      "Item Effect",
+    "ENHANCEMENT_US": "Enhancement Effect",
+    "DESCRIPTION_US": "Description:",
+    
+    "BUY_PT":         "Preço de compra: ",
+    "SELL_PT":        "Preço de venda: ",
+    "REPAIR_PT":      "Preço de reparação: ",
+    "EFFECT_PT":      "Efeito de Item",
+    "ENHANCEMENT_PT": "Efeito de Aprimoramento",
+    "DESCRIPTION_PT": "Descrição :"
+}

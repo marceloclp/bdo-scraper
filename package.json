@@ -1,0 +1,25 @@
+{
+  "name": "bdo-scraper",
+  "version": "1.0.0",
+  "description": "A scraper for BDOCodex.com and BDDatabase.net.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node tests.js",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "scraper",
+    "blackdesert",
+    "bdo"
+  ],
+  "author": "Marcelo Perrella",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
+  },
+  "devDependencies": {
+    "lodash": "^4.17.15"
+  }
+}
