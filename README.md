@@ -1,13 +1,14 @@
 # BDO Scraper
 
 BDOScraper is a web scraper developed for [BDOCodex](http://bdocodex.com/), and it should work for [BDDatabase](https://bddatabase.net/) given the similarities between them. Currently supports the english and portuguese languages.
-### Installation
+
+## Installation
 
 ```bash
 npm install bdo-scraper
 ```
 
-### Usage
+## Usage
 
 Simply import the package and load one or more URIs. Use then() to treat the promise and the arg will be the scraper. So get scraping :)
 
@@ -20,7 +21,8 @@ BDOScraper.load('https://bdocodex.com/us/item/5467/').then(item => {
     console.log(item.getName())
 })
 
-// Or load multiple items at once. This will use Promise.all() to wait until all promises are resolved, and then return a new promise. So use it carefully.
+// Or load multiple items at once. This will use Promise.all() to wait until
+// all promises are resolved, and then return a new promise. So use it carefully.
 BDOScraper.loadMultiple([
     'https://bdocodex.com/us/item/5467/',
     'https://bdocodex.com/us/item/14486/',
@@ -31,7 +33,7 @@ BDOScraper.loadMultiple([
 })
 ```
 
-### Methods
+## Methods
 
 For all the following methods, simply load one or more URIs and call the method from the received item.
 ```javascript
@@ -40,31 +42,31 @@ BDOScraper.load('https://bdocodex.com/us/item/14486/').then(item => {
 })
 ```
 
-##### **getName()**
+#### **getName()**
 Returns the name of the item if it exists, otherwise returns null.
 ```javascript
 item.getName() // => 'Offin Tett's Radiant Staff'
 ```
 
-##### **getAltName()**
+#### **getAltName()**
 BDOCodex displays the korean name under the selected language name. This returns the korean name if it exists, otherwise returns null.
 ```javascript
 item.getAltName() // => '오핀 테트의 빛 지팡이'
 ```
 
-##### **getGrade()**
+#### **getGrade()**
 Returns the grade (color) of the item as a number (but its type is still a string).
 ```javascript
 item.getGrade() // => '3'
 ```
 
-##### **getIcon()**
+#### **getIcon()**
 Returns the src for the item's icon if available, otherwise returns null. You will still need to parse the url depending on the website you are scraping.
 ```javascript
 item.getIcon() // => '/items/new_icon/06_pc_equipitem/00_common/01_weapon/00014486.png'
 ```
 
-##### **getStats()**
+#### **getStats()**
 Returns an object containing the item stats if available. If one or all stats are not available, returns the missing properties as null.
 ```javascript
 item.getStats()
@@ -77,31 +79,31 @@ item.getStats()
 }*/
 ```
 
-##### **getWeight()**
+#### **getWeight()**
 Returns the weight of the item as a string if available, otherwise returns null.
 ```javascript
 item.getWeight() // => '13.50 LT'
 ```
 
-##### **getType()**
+#### **getType()**
 Returns the type displayed ingame if available, otherwise returns null.
 ```javascript
 item.getType() // => 'Equipment'
 ```
 
-##### **getDetailedType()**
+#### **getDetailedType()**
 Returns an array detailing the item type. Used by BDOCodex and BDDatabase for some internal logic.
 ```javascript
 item.getDetailedType() // => ['06_pc_equipitem', '00_common', '01_weapon']
 ```
 
-##### **getPrices()**
+#### **getPrices()**
 Returns an object containing the buy, sell and repair prices. If one or more prices are not available, return the property as null.
 ```javascript
 item.getPrices() // => { buy: '95,000,000', sell: '750,000', repair: '43,740' }
 ```
 
-##### **getItemEffects()**
+#### **getItemEffects()**
 Returns an array containing the item effects if it exists, otherwise returns an empty array.
 ```javascript
 item.getItemEffects()
@@ -112,7 +114,7 @@ item.getItemEffects()
 ]*/
 ```
 
-##### **getEnhancementEffects()**
+#### **getEnhancementEffects()**
 Returns an array containing the enhancement effects if it exists, otherwise returns an empty array.
 ```javascript
 item.getEnhancementEffects()
@@ -124,7 +126,7 @@ item.getEnhancementEffects()
 ]*/
 ```
 
-##### **getDescription()**
+#### **getDescription()**
 Returns the item description if available, otherwise returns null.
 ```javascript
 item.getDescription() // => 'Staff containing a condensed form of Offin Tett's light energy. A strong force is felt from the condensed radiant energy.'
