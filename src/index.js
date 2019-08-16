@@ -248,14 +248,24 @@ class BDOScraper {
                     break
                 }
 
-                if (node.type === 'tag' && node.name === 'br') {
-                    // Checks for double line break.
-                    if (++lineBreaks === 2)
-                        break
-                } else lineBreaks = 0
+                if (node.type === 'text') {
+                    lineBreaks = 0
+                }
 
-                if (text)
+                if (node.type === 'tag') {
+                    if (node.name === 'br') {
+                        if (++lineBreaks === 2)
+                            break
+                    } else lineBreaks = 0
+
+                    if (node.name === 'div' || node.name === 'hr') {
+                        break
+                    }
+                }
+
+                if (text) {
                     description += _trim(text) + '\n'
+                }
             }
         }
 
