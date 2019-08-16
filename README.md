@@ -43,31 +43,31 @@ BDOScraper.load('https://bdocodex.com/us/item/14486/').then(item => {
 ```
 
 #### **getName()**
-Returns the name of the item if it exists, otherwise returns null.
+Returns the name of the item if it exists, otherwise returns `null`.
 ```javascript
 item.getName() // => 'Offin Tett's Radiant Staff'
 ```
 
 #### **getAltName()**
-BDOCodex displays the korean name under the selected language name. This returns the korean name if it exists, otherwise returns null.
+BDOCodex displays the korean name under the selected language name. This returns the korean name if it exists, otherwise returns `null`.
 ```javascript
 item.getAltName() // => '오핀 테트의 빛 지팡이'
 ```
 
 #### **getGrade()**
-Returns the grade (color) of the item as a number (but its type is still a string).
+Returns the grade (color) of the item as a `number` (but its type is still a `string`).
 ```javascript
 item.getGrade() // => '3'
 ```
 
 #### **getIcon()**
-Returns the src for the item's icon if available, otherwise returns null. You will still need to parse the url depending on the website you are scraping.
+Returns the src for the item's icon if available, otherwise returns `null`. You will still need to parse the url depending on the website you are scraping.
 ```javascript
 item.getIcon() // => '/items/new_icon/06_pc_equipitem/00_common/01_weapon/00014486.png'
 ```
 
 #### **getStats()**
-Returns an object containing the item stats if available. If one or all stats are not available, returns the missing properties as null.
+Returns an object containing the item stats if available. If stats don't exist for this item, return `null`.
 ```javascript
 item.getStats()
 /* => {
@@ -80,13 +80,13 @@ item.getStats()
 ```
 
 #### **getWeight()**
-Returns the weight of the item as a string if available, otherwise returns null.
+Returns the weight of the item as a string if available, otherwise returns `null`.
 ```javascript
 item.getWeight() // => '13.50 LT'
 ```
 
 #### **getType()**
-Returns the type displayed ingame if available, otherwise returns null.
+Returns the type displayed ingame if available, otherwise returns `null`.
 ```javascript
 item.getType() // => 'Equipment'
 ```
@@ -98,7 +98,7 @@ item.getDetailedType() // => ['06_pc_equipitem', '00_common', '01_weapon']
 ```
 
 #### **getPrices()**
-Returns an object containing the buy, sell and repair prices. If one or more prices are not available, return the property as null.
+Returns an object containing the buy, sell and repair prices. If one or more prices are not available, return the property as `null`.
 ```javascript
 item.getPrices() // => { buy: '95,000,000', sell: '750,000', repair: '43,740' }
 ```

@@ -58,12 +58,15 @@ class BDOScraper {
      * otherwise returns null.
      */
     getStats() {
+        if (!this.$('#damage').text())
+            return null
+
         return {
-            damage:     _trim(this.$('#damage').text())     || null,
-            defense:    _trim(this.$('#defense').text())    || null,
-            accuracy:   _trim(this.$('#accuracy').text())   || null,
-            evasion:    _trim(this.$('#evasion').text())    || null,
-            dreduction: _trim(this.$('#dreduction').text()) || null,
+            damage:     _trim(this.$('#damage').text()),
+            defense:    _trim(this.$('#defense').text()),
+            accuracy:   _trim(this.$('#accuracy').text()),
+            evasion:    _trim(this.$('#evasion').text()),
+            dreduction: _trim(this.$('#dreduction').text()),
         }
     }
 
