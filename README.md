@@ -67,7 +67,7 @@ item.getIcon() // => '/items/new_icon/06_pc_equipitem/00_common/01_weapon/000144
 ```
 
 #### **getStats()**
-Returns an object containing the item stats if available. If stats don't exist for this item, return `null`.
+Returns an `object` containing the item stats if available. If stats don't exist for this item, return `null`.
 ```javascript
 item.getStats()
 /* => {
@@ -80,7 +80,7 @@ item.getStats()
 ```
 
 #### **getWeight()**
-Returns the weight of the item as a string if available, otherwise returns `null`.
+Returns the weight of the item as a `string` if available, otherwise returns `null`.
 ```javascript
 item.getWeight() // => '13.50 LT'
 ```
@@ -92,19 +92,19 @@ item.getType() // => 'Equipment'
 ```
 
 #### **getDetailedType()**
-Returns an array detailing the item type. Used by BDOCodex and BDDatabase for some internal logic.
+Returns an `array` detailing the item type. Used by BDOCodex and BDDatabase for some internal logic.
 ```javascript
 item.getDetailedType() // => ['06_pc_equipitem', '00_common', '01_weapon']
 ```
 
 #### **getPrices()**
-Returns an object containing the buy, sell and repair prices. If one or more prices are not available, return the property as `null`.
+Returns an `object` containing the buy, sell and repair prices. If one or more prices are not available, return the property as `null`.
 ```javascript
 item.getPrices() // => { buy: '95,000,000', sell: '750,000', repair: '43,740' }
 ```
 
 #### **getItemEffects()**
-Returns an array containing the item effects if it exists, otherwise returns an empty array.
+Returns an `array` containing the item effects if it exists, otherwise returns an empty `array`.
 ```javascript
 item.getItemEffects()
 /* => [
@@ -115,7 +115,7 @@ item.getItemEffects()
 ```
 
 #### **getEnhancementEffects()**
-Returns an array containing the enhancement effects if it exists, otherwise returns an empty array.
+Returns an `array` containing the enhancement effects if it exists, otherwise returns an empty `array`.
 ```javascript
 item.getEnhancementEffects()
 /* => [
@@ -127,7 +127,43 @@ item.getEnhancementEffects()
 ```
 
 #### **getDescription()**
-Returns the item description if available, otherwise returns null.
+Returns the item description if available, otherwise returns `null`.
 ```javascript
 item.getDescription() // => 'Staff containing a condensed form of Offin Tett's light energy. A strong force is felt from the condensed radiant energy.'
+```
+
+#### **getRecipe()**
+Returns an object describing the recipe if the entity uri follows the pattern `/recipe/id`, otherwise returns `null`. If you're trying to query for an item's recipes, you should use `getRecipesFromItem()`.
+```javascript
+// Beer (recipe) @ https://bdocodex.com/us/recipe/122/
+recipe.getRecipe()
+/* => {
+    materials: [{ name, amount, id, link, grade }],
+    results: [{ name, amount, id, link, grade }],
+    skillLvl: 'Beginner 1',
+    exp: 400
+}*/
+```
+
+#### **getRecipesFromItem()**
+Returns a promise with `recipes[]` describing the available recipes for a given item.
+```javascript
+// Beer (item) @ https://bdocodex.com/us/item/9213/
+item.getRecipesFromItem().then(recipes => {
+    console.log(recipes) // Array of recipes.
+})
+```
+
+#### **getRecipeSkillLevel()**
+Returns the proficiency level necessary to craft a recipe. Returns `null` if not available.
+```javascript
+// Beer (recipe) @ https://bdocodex.com/us/recipe/122/
+recipe.getRecipeSkillLevel() // => 'Beginner 1'
+```
+
+#### **getRecipeExp()**
+Returns the exp as a `number` necessary to craft a recipe. Returns `null` if not available.
+```javascript
+// Beer (recipe) @ https://bdocodex.com/us/recipe/122/
+recipe.getRecipeExp() // => 400
 ```
