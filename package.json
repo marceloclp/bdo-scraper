@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node tests.js",
-    "start": "node index.js"
+    "start": "node src/index.js"
   },
   "keywords": [
     "scraper",

@@ -1,45 +1,19 @@
 const rp      = require('request-promise')
 const cheerio = require('cheerio')
-const SLICERS = require('./slicers.json')
+const slicers = require('./slicers.json')
 
 class BDOScraper {
     constructor($, uri) {
         this.$        = $
         this._uri     = uri
-        this._slicers = BDOScraper.buildSlicersObj(uri)
+        this._id      = uri.replace(/\D/g,'')
+        this._locale  = Object.keys(slicers).find(l => uri.indexOf(l) !== -1)
+
+        // Locale object.
+        this._slicers = slicers[this._locale]
 
         // Reusable item properties.
         this._src = null
-    }
-
-    static buildSlicersObj(uri) {
-        const LANGS = ['us', 'pt']
-
-        let slicers = {}
-        let keys    = {}
-        Object.keys(SLICERS).forEach(key => {
-            const k = key.slice(0, key.indexOf('_'))
-            if (!keys.hasOwnProperty(k))
-                keys[k] = null
-        })
-        keys = Object.keys(keys)
-    
-        uri.split('/').forEach(p => {
-            if (p.length !== 2)
-                return
-    
-            for (let i = 0; i < LANGS.length; i++) {
-                if (p === LANGS[i] || p.toUpperCase() === LANGS[i]) {
-                    keys.map(str => {
-                        const key = `${str}_${LANGS[i].toUpperCase()}`
-                        if (SLICERS.hasOwnProperty(key))
-                            slicers[str] = SLICERS[key]
-                    })
-                }
-            }
-        })
-
-        return Object.keys(slicers).length ? slicers : null
     }
 
     /**
@@ -80,7 +54,8 @@ class BDOScraper {
     }
 
     /**
-     * Returns an object containing the stats for an equipment if it exists.
+     * Returns an object containing the stats for an equipment if it exists,
+     * otherwise returns null.
      */
     getStats() {
         return {
