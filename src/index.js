@@ -7,13 +7,25 @@ class BDOScraper {
         this.$        = $
         this._uri     = uri
         this._id      = uri.replace(/\D/g,'')
-        this._locale  = Object.keys(slicers).find(l => uri.indexOf(l) !== -1)
-
-        // Locale object.
+        this._locale  = Object.keys(slicers).find(l => uri.split('/')[3].indexOf(l) !== -1)
         this._slicers = slicers[this._locale]
+    }
 
-        // Reusable item properties.
-        this._src = null
+    /**
+     * Helper function to get a single node value from contents based on a slicer.
+     * 
+     * @param {string}  slicer  The slicer to be used.
+     * @param {nodes[]} wrapper The array of nodes to be searched.
+     */
+    static getFromWrapperArr($, slicer, wrapper) {
+        for (let i = 0; i < wrapper.length; i++) {
+            const text = $(wrapper[i]).text()
+
+            if (text && text.indexOf(slicer) !== -1) {
+                return _trim(text.slice(slicer.length))
+            }
+        }
+        return null
     }
 
     /**
@@ -74,12 +86,11 @@ class BDOScraper {
      * Returns the weight of the item if it exists.
      */
     getWeight() {
-        const slicer = ': '
-        const raw    = _trim(this.$('.category_text').parent().contents().last().text())
-
-        return raw.slice(
-            raw.indexOf(slicer) + slicer.length
-        ) || null
+        return BDOScraper.getFromWrapperArr(
+            this.$,
+            this._slicers.WEIGHT,
+            this.$('.category_text').parent().contents().toArray()
+        )
     }
 
     /**
@@ -207,7 +218,9 @@ class BDOScraper {
      * Returns the description of the item if it exists.
      */
     getDescription() {
-        const contentsArr = this.$('table.smallertext > tbody > tr').last().children().first().contents().toArray()
+        const contentsArr = this.$('table.smallertext > tbody > tr')
+            .last().children().first().contents().toArray()
+
         let description = ''
         let append      = false
         let lineBreaks  = 0
@@ -246,7 +259,97 @@ class BDOScraper {
             }
         }
 
-        return _trim(description)
+        return description ? _trim(description) : null
+    }
+
+    /**
+     * Returns a promise with objects[] containing the materials and results of all
+     * recipes that result on this item.
+     */
+    getRecipesFromItem() {
+        return new Promise(res => {
+            const uri = `https://bdocodex.com/query.php?a=recipes&type=product&item_id=${this._id}&l=${this._locale}`
+            rp(uri).then(raw => {
+                const uris = JSON.parse(_trim(raw)).aaData.map(
+                    e => `https://bdocodex.com/${this._locale}/recipe/${e[0]}/`
+                )
+
+                loadMultiple(uris).then(scrapers => {
+                    res(scrapers.map(scraper => scraper.getRecipe()))
+                })
+            })
+        })
+    }
+
+    /**
+     * Returns an object containing the materials and results of a recipe.
+     * Returns null if uri is not of type recipe.
+     */
+    getRecipe() {
+        const isRecipe = this._uri.split('/')[4] === 'recipe'
+
+        if (!isRecipe)
+            return null
+
+        const recipe = { materials: [], results: [] }
+
+        const buildArr = (key, slicer) => {
+            this.$(
+                this.$('table.smallertext > tbody > tr').toArray().find(
+                    node => this.$(node).text().indexOf(slicer) !== -1
+                )
+            ).find('td > *').toArray().forEach((node, i, arr) => {
+                const elem = this.$(node)
+                const cx   = elem.attr('class')
+    
+                if (!cx || cx.indexOf('iconset_wrapper_medium') === -1)
+                    return
+                
+                const anchor = this.$(arr[i+1])
+                const link   = anchor.attr('href')
+                const amount = parseInt(_trim(elem.text()))
+    
+                recipe[key].push({
+                    name:   _trim(anchor.text()),
+                    amount: isNaN(amount) ? 1 : amount,
+                    id:     link.replace(/\D/g, ''),
+                    grade:  anchor.attr('class').replace(/\D/g, ''),
+                    link,
+                })
+            })
+        }
+
+        buildArr('materials', this._slicers.RECIPE_MATERIALS)
+        buildArr('results',   this._slicers.RECIPE_RESULTS)
+
+        recipe.skillLvl = this.getRecipeSkillLevel()
+        recipe.exp      = this.getRecipeExp()
+
+        return recipe
+    }
+
+    /**
+     * Returns the skill level of a recipe if it exists, otherwise returns null.
+     */
+    getRecipeSkillLevel() {
+        return BDOScraper.getFromWrapperArr(
+            this.$,
+            this._slicers.RECIPE_SKILLLVL,
+            this.$('.category_text').parent().contents().toArray()
+        )
+    }
+
+    /**
+     * Returns the exp received when crafting a recipe if it exists, otherwise
+     * returns null.
+     */
+    getRecipeExp() {
+        const exp = BDOScraper.getFromWrapperArr(
+            this.$,
+            this._slicers.RECIPE_EXP,
+            this.$('.category_text').parent().contents().toArray()
+        )
+        return exp ? parseInt(exp) : null
     }
 }
 
