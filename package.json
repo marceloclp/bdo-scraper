@@ -4,7 +4,7 @@
   "description": "A scraper for BDOCodex.com and BDDatabase.net.",
   "main": "index.js",
   "scripts": {
-    "test": "node tests.js",
+    "test": "node tests/index.js",
     "start": "node src/index.js"
   },
   "keywords": [
