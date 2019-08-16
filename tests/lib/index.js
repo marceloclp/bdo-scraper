@@ -1,5 +1,7 @@
-const evalItem = require('./evalItem')
+const evalItem   = require('./evalItem')
+const evalRecipe = require('./evalRecipe')
 
 module.exports = {
-    evalItem
+    evalItem,
+    evalRecipe
 }

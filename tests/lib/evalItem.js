@@ -15,6 +15,8 @@ const map_key_to_func = (scraper, key) => {
         item_effects:        () => scraper.getItemEffects(),
         enhancement_effects: () => scraper.getEnhancementEffects(),
         description:         () => scraper.getDescription(),
+        recipeSkillLvl:      () => scraper.getRecipeSkillLevel(),
+        recipeExp:           () => scraper.getRecipeExp(),
     }[key]()
 }
 
