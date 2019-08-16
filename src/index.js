@@ -205,19 +205,45 @@ class BDOScraper {
      */
     getDescription() {
         const contentsArr = this.$('table.smallertext > tbody > tr').last().children().first().contents().toArray()
-        let idx
+        let description = ''
+        let append      = false
+        let lineBreaks  = 0
 
-        for (idx = 0; idx < contentsArr.length; idx++) {
-            const elem = this.$(contentsArr[idx])
+        for (let i = 0; i < contentsArr.length; i++) {
+            const node = contentsArr[i]
+            const elem = this.$(node)
+            const text = elem.text()
 
-            if (elem.text().indexOf(this._slicers.DESCRIPTION) !== -1)
-                break
+            if (text.indexOf(this._slicers.DESCRIPTION) !== -1) {
+                // The start of the description block.
+                append = true
+                continue
+            }
+
+            if (append) {
+                if (elem.attr('style') === 'color: #e9bd23') {
+                    // Yellow text, end of description text block.
+                    break
+                }
+
+                if (['-', '-'].includes(text[0])) {
+                    // Start of a new text block that wasn't separated by
+                    // double line break or the start of yellow text.
+                    break
+                }
+
+                if (node.type === 'tag' && node.name === 'br') {
+                    // Checks for double line break.
+                    if (++lineBreaks === 2)
+                        break
+                } else lineBreaks = 0
+
+                if (text)
+                    description += _trim(text) + '\n'
+            }
         }
 
-        if (idx === contentsArr.length - 1)
-            return null
-        
-        return _trim(this.$(contentsArr[idx + 2]).text())
+        return _trim(description)
     }
 }
 
