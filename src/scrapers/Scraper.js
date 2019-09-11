@@ -89,7 +89,9 @@ module.exports = class Scraper {
     }
 
     // Returns the entity icon url.
-    getIcon() {}
+    getIcon($ = this._parsers[0]) {
+        return this.$('.item_icon[alt=icon]').attr('src') || null
+    }
 
     // Returns the item stats.
     getStats() {}
