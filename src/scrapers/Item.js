@@ -7,7 +7,7 @@ module.exports = class Item extends Scraper {
         return this._langs.map(lang => `https://bdocodex.com/${lang}/item/${this._id}/`)
     }
 
-    getData(parsers) {
+    getData() {
         const parse = (f) => Object.keys(this._parsers).reduce((data, l) => {
             data[l] = f(l)
             return data
@@ -34,4 +34,16 @@ module.exports = class Item extends Scraper {
         return Util.sliceFromSubstr(weight, ' ')
     }
 
+    // Returns the item stats if item is an equipment.
+    getStats($ = this._parsers[this._langs[0]]) {
+        if ($('#damage').text())
+            return null
+        return {
+            damage:     Util.trim($('#damage').text()),
+            defense:    Util.trim($('#defense').text()),
+            accuracy:   Util.trim($('#accuracy').text()),
+            evasion:    Util.trim($('#evasion').text()),
+            dreduction: Util.trim($('#dreduction').text()),
+        }
+    }
 }
