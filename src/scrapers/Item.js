@@ -8,7 +8,8 @@ module.exports = class Item extends Scraper {
 
     getAll(l) {
         return {
-            name: this.getName(l)
+            name: this.getName(l),
+            grade: this.getGrade(l),
         }
     }
 

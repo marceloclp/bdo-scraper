@@ -1,6 +1,10 @@
 const request  = require('request-promise')
 const cheerio  = require('cheerio')
-const { trim } = require('../lib')
+
+const {
+    trim,
+    sliceFromSubstr
+} = require('../lib')
 
 const {
     available_langs,
@@ -78,7 +82,11 @@ module.exports = class Scraper {
     }
 
     // Returns the entity grade.
-    getGrade() {}
+    getGrade(l, $ = this._parsers[l]) {
+        return parseInt(trim(
+            sliceFromSubstr($('.item_title').attr('class'), 'item_grade_')
+        ))
+    }
 
     // Returns the entity icon url.
     getIcon() {}
