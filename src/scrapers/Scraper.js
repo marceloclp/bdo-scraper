@@ -51,6 +51,9 @@ module.exports = class Scraper {
             Promise.all(
                 this.parseUris().map(uri => this.validateRequest(uri))
             ).then(arr => {
+                if (!arr.length)
+                    throw `Item id/${this._id} doesn't exist or there was a request error`
+
                 arr.forEach(($, i) => {
                     this._parsers[this._langs[i]] = $
                 })
@@ -66,9 +69,6 @@ module.exports = class Scraper {
 
     // Returns the entity name.
     getName(l = this._langs[0]) {
-        if (!Object.keys(this._parsers).length)
-            throw `No parsers were found in getName() for /id/${this._id}`
-
         const $ = this._parsers[l]
         return trim($('.item_title').text()) || null
     }
