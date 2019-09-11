@@ -1,6 +1,6 @@
 const _trim = require('lodash').trim
 
-const trim = (str, chars) => {
+const trim = (str, chars = '') => {
     return _trim(str, chars + ' -–\n')
 }
 
