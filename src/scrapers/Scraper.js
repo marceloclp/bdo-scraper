@@ -28,7 +28,7 @@ module.exports = class Scraper {
     }
 
     // Validates the request response.
-    validateRequest(uri) {
+    validateRequest(uri, l) {
         return new Promise(resolve => {
             request(uri).then(html => {
                 const $ = cheerio.load(html)
@@ -36,7 +36,7 @@ module.exports = class Scraper {
                 if (!$('.page_outer').children().length)
                     return resolve(null)
                 
-                return resolve($)
+                return resolve({ $, l, uri })
             })
             .catch(err => {
                 console.error(err)
@@ -49,17 +49,20 @@ module.exports = class Scraper {
     scrape() {
         return new Promise(resolve => {
             Promise.all(
-                this.parseUris().map(uri => this.validateRequest(uri))
+                this.parseUris().map((uri, i) => this.validateRequest(uri, this._langs[i]))
             ).then(arr => {
+                // Check if there were valid parsers.
                 if (!arr.length)
                     throw `Item id/${this._id} doesn't exist or there was a request error`
 
-                arr.forEach(($, i) => {
-                    this._parsers[this._langs[i]] = $
+                let data = {}
+                arr.forEach(parser => {
+                    const { $, l, uri } = parser
+                    this._parsers[l] = $
+                    data[l] = this.getAll(l)
                 })
 
-                // This will return the scraped data.
-                resolve(this)
+                resolve(data)
             })
         })
     }
@@ -67,9 +70,10 @@ module.exports = class Scraper {
     // Parses scraper uris.
     parseUris() {}
 
+    getAll() {}
+
     // Returns the entity name.
-    getName(l = this._langs[0]) {
-        const $ = this._parsers[l]
+    getName(l, $ = this._parsers[l]) {
         return trim($('.item_title').text()) || null
     }
 
