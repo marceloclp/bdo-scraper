@@ -7,12 +7,17 @@ module.exports = class Item extends Scraper {
         return this._langs.map(lang => `https://bdocodex.com/${lang}/item/${this._id}/`)
     }
 
-    getData(l) {
+    getData(parsers) {
+        const parse = (f) => Object.keys(this._parsers).reduce((data, l) => {
+            data[l] = f(l)
+            return data
+        }, {})
+
         return {
-            name: this.getName(l),
-            grade: this.getGrade(),
             icon: this.getIcon(),
-            type: this.getType(l),
+            grade: this.getGrade(),
+            name: parse(this.getName.bind(this)),
+            type: parse(this.getType.bind(this)),
         }
     }
 

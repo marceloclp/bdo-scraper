@@ -59,14 +59,9 @@ module.exports = class Scraper {
                 if (!arr.length)
                     throw `Item id/${this._id} doesn't exist or there was a request error`
 
-                let data = {}
-                arr.forEach(parser => {
-                    const { $, l, uri } = parser
-                    this._parsers[l] = $
-                    data[l] = this.getData(l)
-                })
+                arr.forEach(parser => this._parsers[parser.l] = parser.$)
 
-                resolve(data)
+                resolve(this.getData())
             })
         })
     }
@@ -74,6 +69,7 @@ module.exports = class Scraper {
     // Parses scraper uris.
     parseUris() {}
 
+    // Returns all of the available data.
     getData() {}
 
     // Returns the entity name.
