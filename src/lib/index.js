@@ -1,3 +1,4 @@
 module.exports = {
-    trim: require('./trim')
+    trim: require('./trim'),
+    sliceFromSubstr: require('./sliceFromSubstr')
 }
