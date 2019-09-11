@@ -90,7 +90,7 @@ module.exports = class Scraper {
 
     // Returns the entity icon url.
     getIcon($ = this._parsers[0]) {
-        return this.$('.item_icon[alt=icon]').attr('src') || null
+        return $('.item_icon[alt=icon]').attr('src') || null
     }
 
     // Returns the item stats.
@@ -100,7 +100,9 @@ module.exports = class Scraper {
     getWeight() {}
 
     // Returns the entity type.
-    getType() {}
+    getType(l, $ = this._parsers[l]) {
+        return trim($('.category_text').text()) || null
+    }
 
     // Returns a computed version of the entity type.
     computeType() {}
