@@ -1,4 +1,7 @@
 const sliceFromSubstr = (str, substr, endIdx) => {
+    if (str === undefined)
+        return null
+        
     const startIdx = str.indexOf(substr)
 
     if (startIdx === -1)
