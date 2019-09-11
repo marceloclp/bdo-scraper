@@ -1,5 +1,6 @@
-const request = require('request-promise')
-const cheerio = require('cheerio')
+const request  = require('request-promise')
+const cheerio  = require('cheerio')
+const { trim } = require('../lib')
 
 const {
     available_langs,
@@ -64,7 +65,13 @@ module.exports = class Scraper {
     parseUris() {}
 
     // Returns the entity name.
-    getName() {}
+    getName(l = this._langs[0]) {
+        if (!Object.keys(this._parsers).length)
+            throw `No parsers were found in getName() for /id/${this._id}`
+
+        const $ = this._parsers[l]
+        return trim($('.item_title').text()) || null
+    }
 
     // Returns the entity grade.
     getGrade() {}
