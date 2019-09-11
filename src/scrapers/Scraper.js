@@ -63,7 +63,7 @@ module.exports = class Scraper {
                 arr.forEach(parser => {
                     const { $, l, uri } = parser
                     this._parsers[l] = $
-                    data[l] = this.getAll(l)
+                    data[l] = this.getData(l)
                 })
 
                 resolve(data)
@@ -74,7 +74,7 @@ module.exports = class Scraper {
     // Parses scraper uris.
     parseUris() {}
 
-    getAll() {}
+    getData() {}
 
     // Returns the entity name.
     getName(l, $ = this._parsers[l]) {
