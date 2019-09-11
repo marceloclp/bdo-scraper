@@ -82,41 +82,19 @@ module.exports = class Scraper {
     }
 
     // Returns the entity grade.
-    getGrade(l, $ = this._parsers[l]) {
+    getGrade($ = this._parsers[this._langs[0]]) {
         return parseInt(trim(
             sliceFromSubstr($('.item_title').attr('class'), 'item_grade_')
         ))
     }
 
     // Returns the entity icon url.
-    getIcon($ = this._parsers[0]) {
+    getIcon($ = this._parsers[this._langs[0]]) {
         return $('.item_icon[alt=icon]').attr('src') || null
     }
-
-    // Returns the item stats.
-    getStats() {}
-
-    // Returns the item weight.
-    getWeight() {}
 
     // Returns the entity type.
     getType(l, $ = this._parsers[l]) {
         return trim($('.category_text').text()) || null
     }
-
-    // Returns a computed version of the entity type.
-    computeType() {}
-
-    // Returns the item prices.
-    getPrices() {}
-
-    // Returns the item effects.
-    getItemEffects() {}
-    getEnhancementEffects() {}
-
-    // Returns the item description.
-    getDescription() {}
-
-    // Returns the item recipes.
-    getRecipes() {}
 }
