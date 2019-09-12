@@ -25,10 +25,10 @@ module.exports = class Item extends Scraper {
             name: parse(this.getName.bind(this)),
             type: parse(this.getType.bind(this)),
             description: parse(this.getDescription.bind(this)),
+            effects: parse(this.getEffects.bind(this)),
         }
     }
 
-    // Returns the item weight.
     getWeight($ = this._parsers[this._langs[0]]) {
         let weight
         $('.category_text').parent().contents().each((i, node) => {
@@ -41,12 +41,10 @@ module.exports = class Item extends Scraper {
         return Util.sliceFromSubstr(weight, ' ')
     }
 
-    // Returns the item stats if item is an equipment.
     getStats($ = this._parsers[this._langs[0]]) {
-        // If stats are not available, return undefined.
         if (!$('#damage').length)
             return undefined
-        
+
         const stats = {
             damage:     Util.trim($('#damage').text()),
             defense:    Util.trim($('#defense').text()),
@@ -62,7 +60,6 @@ module.exports = class Item extends Scraper {
         return stats
     }
 
-    // Returns the item description if available.
     getDescription(l, $ = this._parsers[l]) {
         const keyword  = Util.getLangKeyword(l, 'DESCRIPTION')
         const children = $('table.smallertext > tbody > tr:last-child > td').contents().toArray()
@@ -128,6 +125,56 @@ module.exports = class Item extends Scraper {
             return null
 
         return prices
+    }
+
+    getEffects(l, $ = this._parsers[l]) {
+        const children = $('#edescription').contents().toArray()
+        
+        if (!children.length)
+            return null
+
+        const keywords = {
+            item:     Util.getLangKeyword(l, 'effects/ITEM_EFFECTS'),
+            set_2:    Util.getLangKeyword(l, 'effects/2_SET_EFFECTS'),
+            set_3:    Util.getLangKeyword(l, 'effects/3_SET_EFFECTS'),
+            set_4:    Util.getLangKeyword(l, 'effects/4_SET_EFFECTS'),
+            set_full: Util.getLangKeyword(l, 'effects/FULL_SET_EFFECTS'),
+            add:      Util.getLangKeyword(l, 'effects/ADDITIONAL_EFFECTS'),
+            enhanc:   Util.getLangKeyword(l, 'effects/ENHANC_EFFECTS'),
+        }
+
+        const getKey = (str) => {
+            if (!str)
+                return null
+            const keys = Object.keys(keywords)
+            for (let i = 0; i < keys.length; i++)
+                if (str.indexOf(keywords[keys[i]]) > -1)
+                    return keys[i]
+            return null
+        }
+
+        let effects = {}    // Store effects by key.
+        let key     = null  // Current key being parsed.
+        let item    = ''    // Store item content.
+
+        for (let i = 0; i < children.length; i++) {
+            const data    = $(children[i]).text()
+            const new_key = getKey(data)
+
+            if (new_key) {
+                key = new_key
+                effects[key] = []
+            }
+            else if (data) {
+                item += Util.trim(data) + ' '
+                if (i === children.length - 1 || children[i+1].name === 'br') {
+                    effects[key].push(Util.trim(item))
+                    item = ''
+                }
+            }
+        }
+
+        return effects
     }
 
 }
