@@ -8,12 +8,19 @@ module.exports = class Item extends Scraper {
     }
 
     getData() {
-        const parse = (f) => Object.keys(this._parsers).reduce((data, l) => {
-            data[l] = f(l)
-            return data
-        }, {})
-
+        // Define a default language.
         const l = Object.keys(this._parsers)[0]
+        
+        const mapToLang = (func) => {
+            const langs = Object.keys(this._parsers)
+            const data = langs.reduce((data, l) => {
+                data[l] = func(l)
+                return data
+            }, {})
+            if (Object.values(data).every(e => !e))
+                return null
+            return data
+        }
 
         return {
             id: this._id,
@@ -22,10 +29,10 @@ module.exports = class Item extends Scraper {
             weight: this.getWeight(),
             stats: this.getStats(),
             prices: this.getPrices(l),
-            name: parse(this.getName.bind(this)),
-            type: parse(this.getType.bind(this)),
-            description: parse(this.getDescription.bind(this)),
-            effects: parse(this.getEffects.bind(this)),
+            name: mapToLang(this.getName.bind(this)),
+            type: mapToLang(this.getType.bind(this)),
+            description: mapToLang(this.getDescription.bind(this)),
+            effects: mapToLang(this.getEffects.bind(this)),
         }
     }
 
