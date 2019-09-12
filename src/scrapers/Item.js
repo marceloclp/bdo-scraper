@@ -13,11 +13,15 @@ module.exports = class Item extends Scraper {
             return data
         }, {})
 
+        const l = Object.keys(this._parsers)[0]
+
         return {
+            id: this._id,
             icon: this.getIcon(),
             grade: this.getGrade(),
             weight: this.getWeight(),
             stats: this.getStats(),
+            prices: this.getPrices(l),
             name: parse(this.getName.bind(this)),
             type: parse(this.getType.bind(this)),
             description: parse(this.getDescription.bind(this)),
@@ -96,6 +100,34 @@ module.exports = class Item extends Scraper {
         }
         
         return Util.trim(description) || null
+    }
+
+    getPrices(l, $ = this._parsers[l]) {
+        const children = $('table.smallertext > tbody > tr:last-child > td').contents().toArray()
+        const prices   = { buy: null, sell: null, repair: null }
+
+        const buyKeyword    = Util.getLangKeyword(l, 'BUY')
+        const sellKeyword   = Util.getLangKeyword(l, 'SELL')
+        const repairKeyword = Util.getLangKeyword(l, 'REPAIR')
+
+        const setPrice = (key, keyword, str) => {
+            if (!prices[key] && str.indexOf(keyword) > -1)
+                prices[key] = Util.sliceFromSubstr(str, keyword)
+        }
+
+        for (let i = 0; i < children.length; i++) {
+            const { data } = children[i]
+            if (!data)
+                continue
+            setPrice('buy',    buyKeyword,    data)
+            setPrice('sell',   sellKeyword,   data)
+            setPrice('repair', repairKeyword, data)
+        }
+
+        if (Object.values(prices).find(val => val === null))
+            return null
+
+        return prices
     }
 
 }
