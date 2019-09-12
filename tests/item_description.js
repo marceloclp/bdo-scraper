@@ -1,21 +1,9 @@
 const { Item } = require('../src')
 const TestUtil = require('./lib')
-const toString = require('stringify-object')
 
-const evalDescription = (id, obj1, obj2) => {
-    if (!TestUtil.eval(obj1, obj2)) {
-        console.log([
-            `id/${id}`,
-            toString(obj1),
-            toString(obj2),
-            '',
-        ].join('\n'))
-    }
-}
-
-const test = (id, obj, langs = ['pt', 'en']) => {
+const test = (id, obj, langs = ['en', 'pt']) => {
     new Item(id, langs).scrape().then(data => {
-        evalDescription(id, obj, data.description)
+        TestUtil.eval(`/id/${id}/description`, obj, data.description)
     })
 }
 

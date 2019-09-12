@@ -23,7 +23,7 @@ module.exports = class Item extends Scraper {
     }
 
     // Returns the item weight.
-    getWeight(l, $ = this._parsers[l]) {
+    getWeight($ = this._parsers[this._langs[0]]) {
         let weight
         $('.category_text').parent().contents().each((i, node) => {
             if (node.type !== 'text')
