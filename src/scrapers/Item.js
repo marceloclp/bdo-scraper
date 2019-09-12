@@ -2,7 +2,6 @@ const Scraper = require('./Scraper')
 const Util = require('../lib')
 
 module.exports = class Item extends Scraper {
-
     parseUris() {
         return this._langs.map(lang => `https://bdocodex.com/${lang}/item/${this._id}/`)
     }
@@ -183,5 +182,4 @@ module.exports = class Item extends Scraper {
 
         return effects
     }
-
 }
