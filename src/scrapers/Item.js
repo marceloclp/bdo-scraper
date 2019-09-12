@@ -16,6 +16,7 @@ module.exports = class Item extends Scraper {
         return {
             icon: this.getIcon(),
             grade: this.getGrade(),
+            weight: this.getWeight(),
             name: parse(this.getName.bind(this)),
             type: parse(this.getType.bind(this)),
             description: parse(this.getDescription.bind(this)),
