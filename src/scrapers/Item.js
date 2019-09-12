@@ -17,6 +17,7 @@ module.exports = class Item extends Scraper {
             icon: this.getIcon(),
             grade: this.getGrade(),
             weight: this.getWeight(),
+            stats: this.getStats(),
             name: parse(this.getName.bind(this)),
             type: parse(this.getType.bind(this)),
             description: parse(this.getDescription.bind(this)),
@@ -38,15 +39,23 @@ module.exports = class Item extends Scraper {
 
     // Returns the item stats if item is an equipment.
     getStats($ = this._parsers[this._langs[0]]) {
-        if ($('#damage').text())
-            return null
-        return {
+        // If stats are not available, return undefined.
+        if (!$('#damage').length)
+            return undefined
+        
+        const stats = {
             damage:     Util.trim($('#damage').text()),
             defense:    Util.trim($('#defense').text()),
             accuracy:   Util.trim($('#accuracy').text()),
             evasion:    Util.trim($('#evasion').text()),
             dreduction: Util.trim($('#dreduction').text()),
         }
+
+        // If all stats are 0, then BDOCodex doesn't show them, so return null.
+        if (Object.values(stats).every(val => ['0', '0 ~ 0'].includes(val)))
+            return null
+
+        return stats
     }
 
     // Returns the item description if available.
