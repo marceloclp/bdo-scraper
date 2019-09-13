@@ -16,8 +16,10 @@ module.exports = class Item extends Scraper {
                 data[l] = func(l)
                 return data
             }, {})
-            if (Object.values(data).every(e => !e))
+            if (Object.values(data).every(e => e === null))
                 return null
+            if (Object.values(data).every(e => e === undefined))
+                return undefined
             return data
         }
 
@@ -140,22 +142,23 @@ module.exports = class Item extends Scraper {
             return null
 
         const keywords = {
-            item:     Util.getLangKeyword(l, 'effects/ITEM_EFFECTS'),
-            set_2:    Util.getLangKeyword(l, 'effects/2_SET_EFFECTS'),
-            set_3:    Util.getLangKeyword(l, 'effects/3_SET_EFFECTS'),
-            set_4:    Util.getLangKeyword(l, 'effects/4_SET_EFFECTS'),
-            set_full: Util.getLangKeyword(l, 'effects/FULL_SET_EFFECTS'),
-            add:      Util.getLangKeyword(l, 'effects/ADDITIONAL_EFFECTS'),
-            enhanc:   Util.getLangKeyword(l, 'effects/ENHANC_EFFECTS'),
+            item:     (str) => Util.hasKeyword(str, l, 'effects/ITEM_EFFECTS'),
+            set_2:    (str) => Util.hasKeyword(str, l, 'effects/2_SET_EFFECTS'),
+            set_3:    (str) => Util.hasKeyword(str, l, 'effects/3_SET_EFFECTS'),
+            set_4:    (str) => Util.hasKeyword(str, l, 'effects/4_SET_EFFECTS'),
+            set_full: (str) => Util.hasKeyword(str, l, 'effects/FULL_SET_EFFECTS'),
+            add:      (str) => Util.hasKeyword(str, l, 'effects/ADDITIONAL_EFFECTS'),
+            enhanc:   (str) => Util.hasKeyword(str, l, 'effects/ENHANC_EFFECTS'),
         }
 
         const getKey = (str) => {
             if (!str)
                 return null
             const keys = Object.keys(keywords)
-            for (let i = 0; i < keys.length; i++)
-                if (str.indexOf(keywords[keys[i]]) > -1)
+            for (let i = 0; i < keys.length; i++) {
+                if (keywords[keys[i]](str))
                     return keys[i]
+            }
             return null
         }
 

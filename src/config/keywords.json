@@ -9,8 +9,10 @@
         "effects/3_SET_EFFECTS": "3-Set Effect",
         "effects/4_SET_EFFECTS": "4-Set Effect",
         "effects/FULL_SET_EFFECTS": "Set Effect",
-        "effects/ADDITIONAL_EFFECTS": "Additional Effect",
+        "effects/ADDITIONAL_EFFECTS": ["Additional Effect", "Extra Effect"],
         "effects/ENHANC_EFFECTS": "Enhancement Effect",
+
+        "description/EXCLUSIVE": "Exclusive: ",
 
         "DESCRIPTION": "Description:",
         "RECIPE_MATERIALS": "Crafting Materials",
@@ -30,6 +32,8 @@
         "effects/FULL_SET_EFFECTS":   "Efeito de Conjunto",
         "effects/ADDITIONAL_EFFECTS": "Efeito Adicional",
         "effects/ENHANC_EFFECTS":     "Efeito de Aprimoramento",
+
+        "description/EXCLUSIVE": "Exclusivo: ",
 
         "DESCRIPTION": "Descrição :",
         "RECIPE_MATERIALS": "Material necessário",

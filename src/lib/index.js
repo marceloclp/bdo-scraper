@@ -4,4 +4,5 @@ module.exports = {
     getLangKeyword: require('./getLangKeyword'),
     indexOf: require('./indexOf'),
     startsWith: require('./startsWith'),
+    hasKeyword: require('./hasKeyword'),
 }
