@@ -34,6 +34,7 @@ module.exports = class Item extends Scraper {
             type: mapToLang(this.getType.bind(this)),
             description: mapToLang(this.getDescription.bind(this)),
             effects: mapToLang(this.getEffects.bind(this)),
+            exclusive: mapToLang(this.getExclusive.bind(this))
         }
     }
 
@@ -184,5 +185,18 @@ module.exports = class Item extends Scraper {
         }
 
         return effects
+    }
+
+    getExclusive(l, $ = this._parsers[l]) {
+        const children = $('table.smallertext > tbody > tr:last-child > td').contents().toArray()
+        const keyword  = Util.getLangKeyword(l, 'description/EXCLUSIVE')
+
+        for (let i = 0; i < children.length; i++) {
+            const { data } = children[i]
+            if (data && data.indexOf(keyword) > -1)
+                return Util.trim(Util.sliceFromSubstr(data, keyword)).split(', ')
+        }
+
+        return undefined
     }
 }
