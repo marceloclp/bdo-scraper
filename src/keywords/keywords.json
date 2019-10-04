@@ -1,0 +1,62 @@
+{
+    "us": {
+        "general/WEIGHT": "Weight: ",
+        "general/LIFESPAN": "Lifespan: ",
+
+        "prices/BUY": "Buy price: ",
+        "prices/SELL": "Sell price: ",
+        "prices/REPAIR": "Repair price: ",
+
+        "effects/ITEM": "Item Effect",
+        "effects/2_SET": "2-Set Effect",
+        "effects/3_SET": "3-Set Effect",
+        "effects/4_SET": "4-Set Effect",
+        "effects/FULL_SET": "Set Effect",
+        "effects/EXTRA": ["Additional Effect", "Extra Effect"],
+        "effects/ENHANC": "Enhancement Effect",
+
+        "description/DESCRIPTION": "Description:",
+        "description/EXCLUSIVE": "Exclusive: ",
+        "description/EFFECT": " Effect",
+        "description/DURATION": "Duration:",
+        "description/COOLDOWN": "Cooldown:",
+
+        "general/P_TRANSACTION": "Personal Transaction",
+        "general/P_TRANSACTION/FALSE": "Unavailable",
+        "general/P_TRANSACTION/TRUE": "Available",
+
+        "cooking/MATERIALS": "Crafting Materials",
+        "cooking/RESULT": "Crafting Result",
+        "cooking/SKILL_LVL": "Skill level: "
+    },
+    "pt": {
+        "general/WEIGHT": "Peso: ",
+        "general/LIFESPAN": "Vida Rest.: ",
+
+        "prices/BUY": "Preço de compra: ",
+        "prices/SELL": "Preço de venda: ",
+        "prices/REPAIR": "Preço de reparação: ",
+
+        "effects/ITEM": "Efeito de Item",
+        "effects/2_SET": "Efeito de Conjunto com 2 Peças",
+        "effects/3_SET": "Efeito de Conjunto com 3 Peças",
+        "effects/4_SET": "Efeito de Conjunto com 4 Peças",
+        "effects/FULL_SET": "Efeito de Conjunto",
+        "effects/EXTRA": "Efeito Adicional",
+        "effects/ENHANC": "Efeito de Aprimoramento",
+
+        "description/DESCRIPTION": "Descrição :",
+        "description/EXCLUSIVE": "Exclusivo: ",
+        "description/EFFECT": "Efeito",
+        "description/DURATION": "Duração : ",
+        "description/COOLDOWN": "Recarga : ",
+
+        "general/P_TRANSACTION": "Comércio pessoal",
+        "general/P_TRANSACTION/FALSE": "indisponível",
+        "general/P_TRANSACTION/TRUE": "disponível",
+
+        "cooking/MATERIALS": "Material necessário",
+        "cooking/RESULT": "Resultado da Manufatura",
+        "cooking/SKILL_LVL": "Nível de habilidade: "
+    }
+}
