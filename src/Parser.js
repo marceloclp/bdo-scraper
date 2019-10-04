@@ -363,6 +363,21 @@ class Parser {
         return $('.category_text').parent().contents().toArray()
     }
 
+    getMaterialGroup($ = this.$) {
+        let children = $('.smallertext.hundredProz > tbody > tr:last-child > td').children('a')
+        let mats = children.map((i, elem) => ({
+            id: $(elem).attr("data-id").substring(6),
+            name: $(elem).text()
+        })).get()
+
+        return mats
+    }
+
+    getMaterialGroupIcon($ = this.$) {
+        let img = $('.smallertext.hundredProz > tbody > tr:last-child > td > div > a > div > img').attr("src")
+        return img
+    }
+
 }
 
 module.exports = Parser

@@ -7,6 +7,7 @@ const mapTypeToEnum = {
         'General',
         'License',
         'Recipe',
+        'Item group'
     ],
     pt: [
         'Equipamento',
@@ -16,6 +17,7 @@ const mapTypeToEnum = {
         'Geral',
         'Registro',
         'Receita',
+        'Item group_todo_translateme'
     ]
 }
 
@@ -26,7 +28,8 @@ const typeEnum = [
     'crafting_materials',
     'general',
     'license',
-    'recipe'
+    'recipe',
+    'materialgroup'
 ]
 
 /**

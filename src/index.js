@@ -61,6 +61,10 @@ const buildResponse = async ($, id, lang, type, full_data_flag) => {
             res.skill_lvl      = p.getSkillLvl()
             res.r_type         = p.getRecipeType()
             break
+            getMat
+        case 'materialgroup':
+            res.materials      = p.getMaterialGroup()
+            res.icon           = p.getMaterialGroupIcon()
     }
 
     switch(itemType(lang, p.getType())) {
@@ -84,6 +88,7 @@ const buildResponse = async ($, id, lang, type, full_data_flag) => {
 
 module.exports = {
     LANGS,
-    Item:   async (id, lang, flag) => await Scraper(id, lang, 'item', flag),
-    Recipe: async (id, lang, flag) => await Scraper(id, lang, 'recipe', flag),
+    Item:          async (id, lang, flag) => await Scraper(id, lang, 'item', flag),
+    Recipe:        async (id, lang, flag) => await Scraper(id, lang, 'recipe', flag),
+    MaterialGroup: async (id, lang, flag) => await Scraper(id, lang, 'materialgroup', flag),
 }

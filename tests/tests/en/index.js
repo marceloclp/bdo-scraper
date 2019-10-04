@@ -1,7 +1,8 @@
-const { Item, Recipe, LANGS } = require('../../../src')
+const { Item, Recipe, MaterialGroup, LANGS } = require('../../../src')
 const { test } = require('../../lib')
 
-test(Item,   LANGS.en, require('./items_consumables_en'))
-test(Item,   LANGS.en, require('./items_equipments_en'))
-test(Item,   LANGS.en, require('./items_processables_en'))
-test(Recipe, LANGS.en, require('./recipes_en'))
+test(Item,   LANGS.en, require('./items_consumables'))
+test(Item,   LANGS.en, require('./items_equipments'))
+test(Item,   LANGS.en, require('./items_processables'))
+test(Recipe, LANGS.en, require('./recipes'))
+test(MaterialGroup, LANGS.en, require('./materialgroups'))
