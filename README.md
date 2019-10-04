@@ -20,7 +20,7 @@ npm install bdo-scraper
 const { Item, Recipe, LANGS } = require('bdo-scraper')
 
 async () => {
-    const data = await new Item(/* id */ 9233, /* lang */ LANGS.en)
+    const data = await Item(/* id */ 9233, /* lang */ LANGS.en)
     console.log(data)
 }
 ```
@@ -104,5 +104,5 @@ This would return an object like:
 ```
 Recipes require extra requests, and they can be disabled by passing `false` to the scraper, like this:
 ```javascript
-await new Item(9233, LANGS.en, false)
+await Item(9233, LANGS.en, false)
 ```
