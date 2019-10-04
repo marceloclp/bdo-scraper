@@ -4,7 +4,7 @@ module.exports = [
     id:           1,
     name: 'Cereals',
     grade: 0,
-    icon: undefined,
+    icon: '/items/new_icon/03_etc/07_productmaterial/00007001.png',
     type: 'Item group',
     materials: [ 
         { id: '7001', name: 'Wheat' },
@@ -17,7 +17,7 @@ module.exports = [
 {  id: 2,
     name: 'Dough',
     grade: 0,
-    icon: undefined,
+    icon: '/items/new_icon/03_etc/07_productmaterial/00007201.png',
     type: 'Item group',
     materials: 
      [ { id: '7201', name: 'Wheat Dough' },
@@ -30,7 +30,7 @@ module.exports = [
 { id: 3,
     name: 'Fruits',
     grade: 0,
-    icon: undefined,
+    icon: '/items/new_icon/03_etc/07_productmaterial/00007304.png',
     type: 'Item group',
     materials: 
      [ { id: '7304', name: 'Strawberry' },

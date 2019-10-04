@@ -1,4 +1,4 @@
-const { Item, Recipe, Materialgroup, LANGS } = require(`../src/index`)
+const { Item, Recipe, MaterialGroup, LANGS } = require(`../src/index`)
 const { test } = require('./lib')
 
 const consumables_en  = require('./tests/items_consumables_en')
@@ -11,4 +11,4 @@ test(Item,   LANGS.en, consumables_en)
 test(Item,   LANGS.en, equipments_en)
 test(Recipe, LANGS.en, recipes_en)
 test(Item,   LANGS.en, processables_en)
-test(Materialgroup, LANGS.en, materialgroups_en)
+test(MaterialGroup, LANGS.en, materialgroups_en)
