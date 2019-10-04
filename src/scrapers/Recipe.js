@@ -1,9 +1,15 @@
 const Scraper = require('./Scraper')
 const Util = require('../lib')
 
-module.exports = class Materialgroup extends Scraper {
+module.exports = class Recipe extends Scraper {
+
+    constructor(id, manufacture, langs) {
+        super(id, langs)
+        this._manufacture = manufacture
+    }
+
     parseUris() {
-        return this._langs.map(lang => `https://bdocodex.com/${lang}/recipe/${this._id}/`)
+        return this._langs.map(lang => `https://bdocodex.com/${lang}/${this._manufacture ? "m" : ""}recipe/${this._id}/`)
     }
 
     getData() {
@@ -27,7 +33,8 @@ module.exports = class Materialgroup extends Scraper {
             id: this._id,
             icon: this.getIcon(),
             materials: this.getMats(),
-            results: this.getResults()
+            results: this.getResults(),
+            misc: this.getMisc()
         }
     }
 
@@ -65,5 +72,35 @@ module.exports = class Materialgroup extends Scraper {
 
         //console.log(mats)
         return res
+    }
+
+    getMisc($ = this._parsers[this._langs[0]]) {
+        let children = $('table.smallertext > tbody > tr:nth-child(4) > td:nth-child(2)').text()
+        
+        let exp = 0
+        try {
+            exp = children.match(/.*EXP: (\d+)/)
+            exp = exp[1]
+        } catch (e) {
+            exp = 0
+        }
+        
+        //console.log(exp)
+
+        let sub = $('table.smallertext > tbody > tr:nth-child(4) > td:nth-child(2)').html()
+        
+        let skilllevel = sub.match(/.*Skill level: ([A-Za-z]+) (\d+).*/)
+        skilllevel = skilllevel[1]+" " + skilllevel[2]
+        
+        let lifeskill = sub.match(/.*yellow_text\"\>([A-Za-z\/\s]+)\<.*/)
+        lifeskill = lifeskill[1]
+        
+
+        //console.log(mats)
+        return {
+            exp: exp,
+            skilllevel: skilllevel,
+            lifeskill: lifeskill
+        }
     }
 }

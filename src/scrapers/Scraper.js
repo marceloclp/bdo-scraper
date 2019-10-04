@@ -51,18 +51,23 @@ module.exports = class Scraper {
 
     // Scrapes BDOCodex for the data.
     scrape() {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             Promise.all(
                 this.parseUris().map((uri, i) => this.validateRequest(uri, this._langs[i]))
             ).then(arr => {
                 // Check if there were valid parsers.
-                if (!arr.length)
-                    throw `Item id/${this._id} doesn't exist or there was a request error`
+                arr = arr.filter(x => x !== null)
+                if (!arr.length) {
+                    reject(`Item id/${this._id} doesn't exist or there was a request error`)
+                    return
+                }
 
-                arr.forEach(parser => this._parsers[parser.l] = parser.$)
+                arr.forEach(parser => {
+                    this._parsers[parser.l] = parser.$
+                })
 
                 resolve(this.getData())
-            })
+            }).catch(err => {throw err})
         })
     }
 

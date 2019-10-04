@@ -33,8 +33,8 @@ module.exports = class Item extends Scraper {
             name: mapToLang(this.getName.bind(this)),
             type: mapToLang(this.getType.bind(this)),
             description: mapToLang(this.getDescription.bind(this)),
-            effects: mapToLang(this.getEffects.bind(this)),
-            exclusive: mapToLang(this.getExclusive.bind(this))
+            //effects: mapToLang(this.getEffects.bind(this)),
+            //exclusive: mapToLang(this.getExclusive.bind(this))
         }
     }
 
