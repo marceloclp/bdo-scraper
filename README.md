@@ -1,169 +1,108 @@
 # BDO Scraper
+BDOScraper is a web scraper developed for [BDDatabase](https://bddatabase.net/). It used to support [BDOCodex](http://bdocodex.com/) previously. Currently supports the english language, and portuguese partially.
 
-BDOScraper is a web scraper developed for [BDOCodex](http://bdocodex.com/), and it should work for [BDDatabase](https://bddatabase.net/) given the similarities between them. Currently supports the english and portuguese languages.
+## What changed from v1 to v2
+- **v2 is not compatible with v1**
+- Dropped support for BDOCodex
+- Simplified API
+- Added support for querying recipes
+
+## Bug Report
+If you find a bug, such as incorrect  please open an issue.
 
 ## Installation
-
 ```bash
 npm install bdo-scraper
 ```
 
 ## Usage
-
-Simply import the package and load one or more URIs. Use then() to treat the promise and the arg will be the scraper. So get scraping :)
-
 ```javascript
-const BDOScraper = require('bdo-scraper')
+const { Item, Recipe } = require('bdo-scraper')
 
-// Load a single item.
-BDOScraper.load('https://bdocodex.com/us/item/5467/').then(item => {
-    // 'Special Dry Mane Grass'
-    console.log(item.getName())
-})
-
-// Or load multiple items at once. This will use Promise.all() to wait until
-// all promises are resolved, and then return a new promise. So use it carefully.
-BDOScraper.loadMultiple([
-    'https://bdocodex.com/us/item/5467/',
-    'https://bdocodex.com/us/item/14486/',
-]).then(items => {
-    // 'Special Dry Mane Grass'
-    // 'Offin Tett's Radiant Staff'
-    items.forEach(item => console.log(item.getName()))
-})
+async () => {
+    const data = await new Item(/* id */ 9233, /* lang */ 'us')
+    console.log(data)
+}
 ```
-
-## Methods
-
-For all the following methods, simply load one or more URIs and call the method from the received item.
-```javascript
-BDOScraper.load('https://bdocodex.com/us/item/14486/').then(item => {
-    item.someMethod() // call your method here
-})
+This would return an object like:
+```json
+{
+    "id":            9213,
+    "name":          "Beer",
+    "grade":         1,
+    "icon":          "/items/new_icon/03_etc/07_productmaterial/00009213.png",
+    "type":          "Special Items",
+    "weight":        "0.10 LT",
+    "description":   "A mild alcoholic drink brewed from cereal grains",
+    "p_transaction": true,
+    "prices":        { "buy": "2,150", "sell": "86", "repair": null },
+    "effects": [
+        "Worker Stamina Recovery +2",
+        "(Use through the Worker Menu on the World Map)."
+    ],
+    "lifespan":      null,
+    "duration":      null,
+    "cooldown":      null,
+    "recipes": [
+        {
+            "id":        122,
+            "icon":      "/items/new_icon/03_etc/07_productmaterial/00009213.png",
+            "name":      "Beer",
+            "skill_lvl": "Beginner 1",
+            "exp":       400,
+            "type":      "Cooking",
+            "materials": [
+                {
+                    "link":   "/us/materialgroup/1/",
+                    "icon":   "/items/new_icon/03_etc/07_productmaterial/00007005.png",
+                    "amount": 5,
+                    "id":     1,
+                },
+                ...
+            ],
+            "results": [
+                {
+                    "link":   "/us/item/9213/",
+                    "icon":   "/items/new_icon/03_etc/07_productmaterial/00009213.png",
+                    "amount": 1,
+                    "id":     9213,
+                },
+                ...
+            ]
+        },
+        ...
+    ],
+    "used_in_recipe": [
+        {
+            "id":        169,
+            "icon":      "/items/new_icon/03_etc/07_productmaterial/00009601.png",
+            "name":      "Balenos Meal",
+            "skill_lvl": "Skilled 6",
+            "exp":       1600,
+            "type":      "Cooking",
+            "materials": [
+                {
+                    "link":   "/us/item/9203/",
+                    "icon":   "/items/new_icon/03_etc/07_productmaterial/00009203.png",
+                    "amount": 1,
+                    "id":     9203,
+                },
+                ...
+            ],
+            "results": [
+                {
+                    "link":   "/us/item/9601/",
+                    "icon":   "/items/new_icon/03_etc/07_productmaterial/00009601.png",
+                    "amount": 1,
+                    "id":     9601,
+                },
+                ...
+            ]
+        }
+    ]
+}
 ```
-
-#### **getName()**
-Returns the name of the item if it exists, otherwise returns `null`.
+Recipes require extra requests, and they can be disabled by passing `false` to the scraper, like this:
 ```javascript
-item.getName() // => 'Offin Tett's Radiant Staff'
-```
-
-#### **getAltName()**
-BDOCodex displays the korean name under the selected language name. This returns the korean name if it exists, otherwise returns `null`.
-```javascript
-item.getAltName() // => '오핀 테트의 빛 지팡이'
-```
-
-#### **getGrade()**
-Returns the grade (color) of the item as a `number` (but its type is still a `string`).
-```javascript
-item.getGrade() // => '3'
-```
-
-#### **getIcon()**
-Returns the src for the item's icon if available, otherwise returns `null`. You will still need to parse the url depending on the website you are scraping.
-```javascript
-item.getIcon() // => '/items/new_icon/06_pc_equipitem/00_common/01_weapon/00014486.png'
-```
-
-#### **getStats()**
-Returns an `object` containing the item stats if available. If stats don't exist for this item, return `null`.
-```javascript
-item.getStats()
-/* => {
-    damage: '22 ~ 24',
-    defense: '0',
-    accuracy: '7',
-    evasion: '0',
-    dreduction: '0'
-}*/
-```
-
-#### **getWeight()**
-Returns the weight of the item as a `string` if available, otherwise returns `null`.
-```javascript
-item.getWeight() // => '13.50 LT'
-```
-
-#### **getType()**
-Returns the type displayed ingame if available, otherwise returns `null`.
-```javascript
-item.getType() // => 'Equipment'
-```
-
-#### **getDetailedType()**
-Returns an `array` detailing the item type. Used by BDOCodex and BDDatabase for some internal logic.
-```javascript
-item.getDetailedType() // => ['06_pc_equipitem', '00_common', '01_weapon']
-```
-
-#### **getPrices()**
-Returns an `object` containing the buy, sell and repair prices. If one or more prices are not available, return the property as `null`.
-```javascript
-item.getPrices() // => { buy: '95,000,000', sell: '750,000', repair: '43,740' }
-```
-
-#### **getItemEffects()**
-Returns an `array` containing the item effects if it exists, otherwise returns an empty `array`.
-```javascript
-item.getItemEffects()
-/* => [
-    'Extra Damage to All Species +10',
-    'Critical Hit +2',
-    'Casting Speed +2 Level'
-]*/
-```
-
-#### **getEnhancementEffects()**
-Returns an `array` containing the enhancement effects if it exists, otherwise returns an empty `array`.
-```javascript
-item.getEnhancementEffects()
-/* => [
-    'Extra AP against monsters up (enhancement level PRI or up)',
-    'Extra Damage to All Species Up',
-    'All AP Up',
-    'All Accuracy Up'
-]*/
-```
-
-#### **getDescription()**
-Returns the item description if available, otherwise returns `null`.
-```javascript
-item.getDescription() // => 'Staff containing a condensed form of Offin Tett's light energy. A strong force is felt from the condensed radiant energy.'
-```
-
-#### **getRecipe()**
-Returns an object describing the recipe if the entity uri follows the pattern `/recipe/id`, otherwise returns `null`. If you're trying to query for an item's recipes, you should use `getRecipesFromItem()`.
-```javascript
-// Beer (recipe) @ https://bdocodex.com/us/recipe/122/
-recipe.getRecipe()
-/* => {
-    materials: [{ name, amount, id, link, grade }],
-    results: [{ name, amount, id, link, grade }],
-    skillLvl: 'Beginner 1',
-    exp: 400
-}*/
-```
-
-#### **getRecipesFromItem()**
-Returns a promise with `recipes[]` describing the available recipes for a given item.
-```javascript
-// Beer (item) @ https://bdocodex.com/us/item/9213/
-item.getRecipesFromItem().then(recipes => {
-    console.log(recipes) // Array of recipes.
-})
-```
-
-#### **getRecipeSkillLevel()**
-Returns the proficiency level necessary to craft a recipe. Returns `null` if not available.
-```javascript
-// Beer (recipe) @ https://bdocodex.com/us/recipe/122/
-recipe.getRecipeSkillLevel() // => 'Beginner 1'
-```
-
-#### **getRecipeExp()**
-Returns the exp as a `number` necessary to craft a recipe. Returns `null` if not available.
-```javascript
-// Beer (recipe) @ https://bdocodex.com/us/recipe/122/
-recipe.getRecipeExp() // => 400
+await new Item(9233, 'us', false)
 ```
