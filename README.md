@@ -8,7 +8,7 @@ BDOScraper is a web scraper developed for [BDDatabase](https://bddatabase.net/).
 - Added support for querying recipes
 
 ## Bug Report
-If you find a bug, such as incorrect  please open an issue.
+If you find a bug, such as an item with incorrect data (different from what the web page shows), please open an issue.
 
 ## Installation
 ```bash
