@@ -17,7 +17,7 @@ const mapTypeToEnum = {
         'Geral',
         'Registro',
         'Receita',
-        'Item group_todo_translateme'
+        'Grupo de itens'
     ]
 }
 
