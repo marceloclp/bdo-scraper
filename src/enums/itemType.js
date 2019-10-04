@@ -10,7 +10,7 @@ const mapTypeToEnum = {
     ],
     pt: [
         'Equipamento',
-        'Consumivel',
+        'Consumível',
         'Item Especial',
         'Material necessário',
         'Geral',
