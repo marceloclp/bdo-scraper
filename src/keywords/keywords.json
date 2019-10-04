@@ -48,12 +48,12 @@
         "description/DESCRIPTION": "Descrição :",
         "description/EXCLUSIVE": "Exclusivo: ",
         "description/EFFECT": "Efeito",
-        "description/DURATION": "Duração : ",
-        "description/COOLDOWN": "Recarga : ",
+        "description/DURATION": ["Duração : ", "Duração: "],
+        "description/COOLDOWN": ["Recarga : ", "Recarga: ", "Tempo de Espera: "],
 
-        "general/P_TRANSACTION": "Comércio pessoal",
-        "general/P_TRANSACTION/FALSE": "indisponível",
-        "general/P_TRANSACTION/TRUE": "disponível",
+        "general/P_TRANSACTION": ["Comércio Pessoal", "Comércio pessoal"],
+        "general/P_TRANSACTION/FALSE": ["Indisponível", "indisponível"],
+        "general/P_TRANSACTION/TRUE": ["Disponível", "disponível"],
 
         "cooking/MATERIALS": "Material necessário",
         "cooking/RESULT": "Resultado da Manufatura",
