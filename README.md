@@ -104,5 +104,5 @@ This would return an object like:
 ```
 Recipes require extra requests, and they can be disabled by passing `false` to the scraper, like this:
 ```javascript
-await new Item(9233, LANGS.US, false)
+await new Item(9233, LANGS.en, false)
 ```
