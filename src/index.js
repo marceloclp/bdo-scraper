@@ -84,6 +84,6 @@ const buildResponse = async ($, id, lang, type, full_data_flag) => {
 
 module.exports = {
     LANGS,
-    Item:   async (id, lang) => await Scraper(id, lang, 'item'),
-    Recipe: async (id, lang) => await Scraper(id, lang, 'recipe'),
+    Item:   async (id, lang, flag) => await Scraper(id, lang, 'item', flag),
+    Recipe: async (id, lang, flag) => await Scraper(id, lang, 'recipe', flag),
 }
