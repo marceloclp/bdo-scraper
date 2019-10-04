@@ -1,3 +1,4 @@
 module.exports = {
-    itemType: require('./itemType')
+    itemType: require('./itemType'),
+    LANGS:    require('./langs'),
 }

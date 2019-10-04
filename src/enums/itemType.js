@@ -1,4 +1,4 @@
-const arrs = {
+const mapTypeToEnum = {
     us: [
         'Equipment',
         'Consumable',
@@ -19,7 +19,7 @@ const arrs = {
     ]
 }
 
-const keys = [
+const typeEnum = [
     'equipment',
     'consumable',
     'special_items',
@@ -31,17 +31,18 @@ const keys = [
 
 /**
  * Converts an item type to a string enumerator.
+ * 
  * @param {string} lang  The item type's language.
  * @param {string} str   The item type.
  * @returns the enumerator for the item type.
  */
 const itemType = (lang, str) => {
-    if (!(lang in arrs))
-        throw `${lang} is not a suppoted language.`
-    const idx = arrs[lang].indexOf(str)
+    if (!(lang in mapTypeToEnum))
+        throw `${lang} is not a supported language.`
+    const idx = mapTypeToEnum[lang].indexOf(str)
     if (idx === -1)
-        throw `${str} is not a defined type.`
-    return keys[idx]
+        console.error(`${str} is not a defined type at Enums.itemType().`)
+    return typeEnum[idx]
 }
 
 module.exports = itemType

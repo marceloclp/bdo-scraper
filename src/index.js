@@ -1,16 +1,14 @@
 const request = require('request-promise')
 const cheerio = require('cheerio')
 const Parser  = require('./Parser')
-const Enums   = require('./enums')
-const { MainController } = require('./controller')
+const { itemType, LANGS } = require('./enums')
+const { MainController }  = require('./controller')
 
-const VALID_LANGS = ['us', 'pt']
-
-const Scraper = async (id, lang, type, full_data_flag = true) => {
+const Scraper = async (id, lang, type = LANGS.en, full_data_flag = true) => {
     if (isNaN(parseInt(id)))
         throw `id has to be a valid number.`
-    if (typeof lang !== `string` || !VALID_LANGS.includes(lang))
-        throw `lang has to be one of ${VALID_LANGS}.`
+    if (typeof lang !== `string` || !Object.values(LANGS).includes(lang))
+        throw `lang has to be one of ${Object.values(LANGS)}.`
 
     const $ = await load(id, lang, type)
     if (!$) return null
@@ -29,9 +27,8 @@ const load = async (id, lang, type) => {
 }
 
 const buildResponse = async ($, id, lang, type, full_data_flag) => {
-    const p        = new Parser($, lang, id)
-    const res      = {}
-    const itemType = Enums.itemType(lang, p.getType())
+    const p   = new Parser($, lang, id)
+    const res = {}
 
     if (full_data_flag) {
         const uriObjs = p.parseQueryObjs()
@@ -66,7 +63,7 @@ const buildResponse = async ($, id, lang, type, full_data_flag) => {
             break
     }
 
-    switch(itemType) {
+    switch(itemType(lang, p.getType())) {
         case 'equipment':
             res.effects        = p.getEquipmentEffects()
             res.durability     = p.getDurability()
@@ -86,6 +83,7 @@ const buildResponse = async ($, id, lang, type, full_data_flag) => {
 }
 
 module.exports = {
+    LANGS,
     Item:   async (id, lang) => await Scraper(id, lang, 'item'),
     Recipe: async (id, lang) => await Scraper(id, lang, 'recipe'),
 }
