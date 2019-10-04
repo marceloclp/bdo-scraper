@@ -1,3 +1,2 @@
-
-require('./tests/en')
+//require('./tests/en')
 require('./tests/pt')
