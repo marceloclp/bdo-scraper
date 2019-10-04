@@ -1,0 +1,197 @@
+module.exports = [
+
+    {
+        id:            4267,
+        name:          `Lingote de Nielo`,
+        grade:         0,
+        icon:          `/items/new_icon/03_etc/07_productmaterial/00004267.png`,
+        type:          `Material necessário`,
+        weight:        `0.30 LT`,
+        description:   `Um recurso natural processado obtido através da Coleta e usado como material para Produção. Pode ser modificado usando Alquimia ou algum tipo de Processamento.`,
+        p_transaction: false,
+        prices:        { buy: `200,000`, sell: `20,000`, repair: null },
+        recipes: [{
+            id:        926,
+            icon:      `/items/new_icon/03_etc/07_productmaterial/00004267.png`,
+            name:      `Lingote de Nielo`,
+            skill_lvl: `Iniciante.0`,
+            exp:       0,
+            type:      `Aquecimento`,
+            materials: [{
+                link:   `/pt/item/4259/`,
+                icon:   `/items/new_icon/03_etc/07_productmaterial/00004259.png`,
+                amount: 2,
+                id:     4259,
+            }, {
+                link:   `/pt/item/9981/`,
+                icon:   `/items/new_icon/03_etc/07_productmaterial/00009981.png`,
+                amount: 10,
+                id:     9981,
+            }],
+            results: [{
+                link:   `/pt/item/4267/`,
+                icon:   `/items/new_icon/03_etc/07_productmaterial/00004267.png`,
+                amount: 1,
+                id:     4267,
+            }],
+        }],
+        used_in_design: [{
+            id:        8808,
+            icon:      `/items/new_icon/03_etc/09_petitem/00049713.png`,
+            name:      `Veleiro de Ephéria: Estátua de Proa de Dragão`,
+            skill_lvl: `Iniciante.0`,
+            exp:       0,
+            type:      null,
+            materials: [{
+                link:   `/pt/item/4056/`,
+                icon:   `/items/new_icon/03_etc/07_productmaterial/00004056.png`,
+                amount: 10,
+                id:     4056,
+            }, {
+                link:   `/pt/item/4267/`,
+                icon:   `/items/new_icon/03_etc/07_productmaterial/00004267.png`,
+                amount: 50,
+                id:     4267,
+            }, {
+                link:   `/pt/item/5951/`,
+                icon:   `/items/new_icon/03_etc/07_productmaterial/00005951.png`,
+                amount: 100,
+                id:     5951,
+            }, {
+                link:   `/pt/item/6527/`,
+                icon:   `/items/new_icon/03_etc/07_productmaterial/00006527.png`,
+                amount: 2,
+                id:     6527,
+            }, {
+                link:   `/pt/item/9580/`,
+                icon:   `/items/new_icon/03_etc/07_productmaterial/00009580.png`,
+                amount: 5,
+                id:     9580,
+            }],
+            results: [{
+                link:   `/pt/item/49713/`,
+                icon:   `/items/new_icon/03_etc/09_petitem/00049713.png`,
+                amount: 1,
+                id:     49713,
+            }],
+        }, {
+            id:        8813,
+            icon:      `/items/new_icon/03_etc/09_petitem/00049722.png`,
+            name:      `Fragata de Ephéria : Proa de Dragão`,
+            skill_lvl: `Iniciante.0`,
+            exp:       0,
+            type:      null,
+            materials: [{
+                link:   `/pt/item/4056/`,
+                icon:   `/items/new_icon/03_etc/07_productmaterial/00004056.png`,
+                amount: 15,
+                id:     4056,
+            }, {
+                link:   `/pt/item/4267/`,
+                icon:   `/items/new_icon/03_etc/07_productmaterial/00004267.png`,
+                amount: 75,
+                id:     4267,
+            }, {
+                link:   `/pt/item/4921/`,
+                icon:   `/items/new_icon/03_etc/07_productmaterial/00004921.png`,
+                amount: 5,
+                id:     4921,
+            }, {
+                link:   `/pt/item/5951/`,
+                icon:   `/items/new_icon/03_etc/07_productmaterial/00005951.png`,
+                amount: 150,
+                id:     5951,
+            }, {
+                link:   `/pt/item/6527/`,
+                icon:   `/items/new_icon/03_etc/07_productmaterial/00006527.png`,
+                amount: 2,
+                id:     6527,
+            }],
+            results: [{
+                link:   `/pt/item/49722/`,
+                icon:   `/items/new_icon/03_etc/09_petitem/00049722.png`,
+                amount: 1,
+                id:     49722,
+            }],
+        }, {
+            id:        8817,
+            icon:      `/items/new_icon/03_etc/09_petitem/00049726.png`,
+            name:      `Veleiro de Ephéria : Proa de Dragão`,
+            skill_lvl: `Iniciante.0`,
+            exp:       0,
+            type:      null,
+            materials: [{
+                link:   `/pt/item/4053/`,
+                icon:   `/items/new_icon/03_etc/07_productmaterial/00004053.png`,
+                amount: 10,
+                id:     4053,
+            }, {
+                link:   `/pt/item/4267/`,
+                icon:   `/items/new_icon/03_etc/07_productmaterial/00004267.png`,
+                amount: 50,
+                id:     4267,
+            }, {
+                link:   `/pt/item/5951/`,
+                icon:   `/items/new_icon/03_etc/07_productmaterial/00005951.png`,
+                amount: 100,
+                id:     5951,
+            }, {
+                link:   `/pt/item/6527/`,
+                icon:   `/items/new_icon/03_etc/07_productmaterial/00006527.png`,
+                amount: 2,
+                id:     6527,
+            }, {
+                link:   `/pt/item/9580/`,
+                icon:   `/items/new_icon/03_etc/07_productmaterial/00009580.png`,
+                amount: 5,
+                id:     9580,
+            }],
+            results: [{
+                link:   `/pt/item/49726/`,
+                icon:   `/items/new_icon/03_etc/09_petitem/00049726.png`,
+                amount: 1,
+                id:     49726,
+            }],
+        }, {
+            id:        8821,
+            icon:      `/items/new_icon/03_etc/09_petitem/00049730.png`,
+            name:      `Fragata de Ephéria : Proa de Dragão do Mar`,
+            skill_lvl: `Iniciante.0`,
+            exp:       0,
+            type:      null,
+            materials: [{
+                link:   `/pt/item/4053/`,
+                icon:   `/items/new_icon/03_etc/07_productmaterial/00004053.png`,
+                amount: 15,
+                id:     4053,
+            }, {
+                link:   `/pt/item/4267/`,
+                icon:   `/items/new_icon/03_etc/07_productmaterial/00004267.png`,
+                amount: 75,
+                id:     4267,
+            }, {
+                link:   `/pt/item/4921/`,
+                icon:   `/items/new_icon/03_etc/07_productmaterial/00004921.png`,
+                amount: 5,
+                id:     4921,
+            }, {
+                link:   `/pt/item/5951/`,
+                icon:   `/items/new_icon/03_etc/07_productmaterial/00005951.png`,
+                amount: 150,
+                id:     5951,
+            }, {
+                link:   `/pt/item/6527/`,
+                icon:   `/items/new_icon/03_etc/07_productmaterial/00006527.png`,
+                amount: 2,
+                id:     6527,
+            }],
+            results: [{
+                link:   `/pt/item/49730/`,
+                icon:   `/items/new_icon/03_etc/09_petitem/00049730.png`,
+                amount: 1,
+                id:     49730,
+            }],
+        }]
+    },
+
+]
