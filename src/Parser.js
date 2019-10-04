@@ -211,6 +211,17 @@ class Parser {
         }
     }
 
+    getMaterialGroup($ = this.$) {
+        const node  = $('.smallertext.hundredProz > tbody > tr:last-child > td')
+        const links = node.children('a')
+        const imgs  = node.find('img')
+        return links.map((i, elem) => ({
+            id:   $(elem).attr('data-id').replace(/\D/g,''),
+            name: Util.trim($(elem).text()),
+            icon: $(imgs[i]).attr('src')
+        })).get()
+    }
+
     getSkillLvl($ = this.$, l = this.l) {
         const key      = 'cooking/SKILL_LVL'
         const children = this.findTableRow(key)
@@ -361,21 +372,6 @@ class Parser {
      */
     findCategoryNode($ = this.$) {
         return $('.category_text').parent().contents().toArray()
-    }
-
-    getMaterialGroup($ = this.$) {
-        let children = $('.smallertext.hundredProz > tbody > tr:last-child > td').children('a')
-        let mats = children.map((i, elem) => ({
-            id: $(elem).attr("data-id").substring(6),
-            name: $(elem).text()
-        })).get()
-
-        return mats
-    }
-
-    getMaterialGroupIcon($ = this.$) {
-        let img = $('.smallertext.hundredProz > tbody > tr:last-child > td > div > a > div > img').attr("src")
-        return img
     }
 
 }

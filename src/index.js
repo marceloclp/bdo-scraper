@@ -61,10 +61,11 @@ const buildResponse = async ($, id, lang, type, full_data_flag) => {
             res.skill_lvl      = p.getSkillLvl()
             res.r_type         = p.getRecipeType()
             break
-            getMat
+
         case 'materialgroup':
             res.materials      = p.getMaterialGroup()
-            res.icon           = p.getMaterialGroupIcon()
+            res.icon           = res.materials[0].icon
+            break
     }
 
     switch(itemType(lang, p.getType())) {
