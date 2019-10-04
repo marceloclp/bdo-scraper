@@ -20,7 +20,7 @@ npm install bdo-scraper
 const { Item, Recipe, LANGS } = require('bdo-scraper')
 
 async () => {
-    const data = await new Item(/* id */ 9233, /* lang */ LANGS.US)
+    const data = await new Item(/* id */ 9233, /* lang */ LANGS.en)
     console.log(data)
 }
 ```
