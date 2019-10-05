@@ -16,12 +16,23 @@ npm install bdo-scraper
 ```
 
 ## Usage
-```javascript
-const { Item, Recipe, LANGS } = require('bdo-scraper')
+**You can read more about the project by reading the [Docs](https://github.com/marceloclp/bdo-scraper/wiki).**
 
+```javascript
+const { Item, Recipe, MaterialGroup, LANGS } = require('bdo-scraper')
+
+// Using ES7 async/await syntax.
 async () => {
-    const data = await Item(/* id */ 9233, /* lang */ LANGS.en)
-    console.log(data)
+    // Returns the data for the item with id 9233.
+    const itemData = await Item(9213)
+
+    // Or, if you need it in another language, pass a different flag.
+    const itemDataInPortuguese = await Item(9213, LANGS.pt)
+
+    // You can get different types of entities by using a different Scraper.
+    const recipeData = await Recipe(122)
+
+    console.log(itemData) // Output below
 }
 ```
 This would return an object like:
@@ -43,66 +54,6 @@ This would return an object like:
     "lifespan":      null,
     "duration":      null,
     "cooldown":      null,
-    "recipes": [
-        {
-            "id":        122,
-            "icon":      "/items/new_icon/03_etc/07_productmaterial/00009213.png",
-            "name":      "Beer",
-            "skill_lvl": "Beginner 1",
-            "exp":       400,
-            "type":      "Cooking",
-            "materials": [
-                {
-                    "link":   "/us/materialgroup/1/",
-                    "icon":   "/items/new_icon/03_etc/07_productmaterial/00007005.png",
-                    "amount": 5,
-                    "id":     1,
-                },
-                ...
-            ],
-            "results": [
-                {
-                    "link":   "/us/item/9213/",
-                    "icon":   "/items/new_icon/03_etc/07_productmaterial/00009213.png",
-                    "amount": 1,
-                    "id":     9213,
-                },
-                ...
-            ]
-        },
-        ...
-    ],
-    "used_in_recipe": [
-        {
-            "id":        169,
-            "icon":      "/items/new_icon/03_etc/07_productmaterial/00009601.png",
-            "name":      "Balenos Meal",
-            "skill_lvl": "Skilled 6",
-            "exp":       1600,
-            "type":      "Cooking",
-            "materials": [
-                {
-                    "link":   "/us/item/9203/",
-                    "icon":   "/items/new_icon/03_etc/07_productmaterial/00009203.png",
-                    "amount": 1,
-                    "id":     9203,
-                },
-                ...
-            ],
-            "results": [
-                {
-                    "link":   "/us/item/9601/",
-                    "icon":   "/items/new_icon/03_etc/07_productmaterial/00009601.png",
-                    "amount": 1,
-                    "id":     9601,
-                },
-                ...
-            ]
-        }
-    ]
+    ...
 }
-```
-Recipes require extra requests, and they can be disabled by passing `false` to the scraper, like this:
-```javascript
-await Item(9233, LANGS.en, false)
 ```
