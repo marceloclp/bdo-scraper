@@ -1,6 +1,14 @@
 # BDO Scraper
 BDOScraper is a web scraper developed for [BDDatabase](https://bddatabase.net/). It used to support [BDOCodex](http://bdocodex.com/) previously. Currently supports the english language, and portuguese partially.
 
+- [BDO Scraper](#bdo-scraper)
+  - [What changed from v1 to v2](#what-changed-from-v1-to-v2)
+  - [Bug Report](#bug-report)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [Scraping Pages](#scraping-pages)
+    - [Searches](#searches)
+
 ## What changed from v1 to v2
 - **v2 is not compatible with v1**
 - Dropped support for BDOCodex
@@ -17,6 +25,9 @@ npm install bdo-scraper
 
 ## Usage
 **You can read more about the project by reading the [Docs](https://github.com/marceloclp/bdo-scraper/wiki).**
+
+### Scraping Pages
+Scraping a page is as simple as importing the correct entity and calling the function.
 
 ```javascript
 const { Item, Recipe, MaterialGroup, LANGS } = require('bdo-scraper')
@@ -35,7 +46,9 @@ async () => {
     console.log(itemData) // Output below
 }
 ```
+
 This would return an object like:
+
 ```json
 {
     "id":            9213,
@@ -56,4 +69,46 @@ This would return an object like:
     "cooldown":      null,
     ...
 }
+```
+
+### Searches
+
+BDOScraper also supports searches now.
+
+```javascript
+const { Search, LANGS } = require('bdo-scraper')
+
+async () => {
+    // Returns at most 10 of the most popular results that match the search term.
+    const dataPopular = await Search('beer')
+
+    // When passing `false` to the third parameter, all results that match the search term will be returned.
+    const dataAll = await Search('beer', LANGS.en, false)
+
+    console.log(dataAll) // Output below
+}
+```
+
+This would return an object like:
+
+```json
+[
+  {
+    "name":  "Beer",
+    "id":    9213,
+    "grade": 1,
+    "type":  "Item",
+    "link":  "/us/item/9213/",
+    "icon":  "/items/new_icon/03_etc/07_productmaterial/00009213.png"
+  },
+  {
+    "name":  "Cold Draft Beer",
+    "id":    9283,
+    "grade": 2,
+    "type":  "Item",
+    "link":  "/us/item/9283/",
+    "icon":  "/items/new_icon/03_etc/07_productmaterial/00009283.png"
+  },
+  ...
+]
 ```

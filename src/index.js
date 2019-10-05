@@ -1,8 +1,9 @@
 const request = require('request-promise')
 const cheerio = require('cheerio')
 const Parser  = require('./Parser')
+const Util    = require('./util')
 const { itemType, LANGS } = require('./enums')
-const { MainController }  = require('./controller')
+const { MainController, SearchController }  = require('./controller')
 
 const Scraper = async (id, lang, type = LANGS.en, full_data_flag = true) => {
     if (isNaN(parseInt(id)))
@@ -87,8 +88,36 @@ const buildResponse = async ($, id, lang, type, full_data_flag) => {
     return res
 }
 
+const search = async (term, lang = LANGS.en, popularity_flag = true) => {
+    const uri = new SearchController(lang, term).get(popularity_flag)
+    const res = await request(uri)
+
+    switch (popularity_flag) {
+        case true:
+            return JSON.parse(res.trim()).map(e => ({
+                name:  e.name,
+                id:    parseInt(e.value),
+                grade: parseInt(e.grade),
+                type:  e.object_type,
+                link:  e.link,
+                icon:  `/${e.icon_path}/${e.icon}`,
+            }))
+
+        case false:
+            return JSON.parse(res.trim()).aaData.map(e => ({
+                name:  Util.substrBetween(e[2], '<b>', '</b>'),
+                id:    parseInt(e[0]),
+                grade: parseInt(Util.substrBetween(e[2], 'item_grade_', '"')),
+                type:  e[4].display,
+                link:  Util.substrBetween(e[2], 'href="', '"'),
+                icon:  Util.substrBetween(e[1], 'src="', '"'),
+            }))
+    }
+}
+
 module.exports = {
     LANGS,
+    Search:        search,
     Item:          async (id, lang, flag) => await Scraper(id, lang, 'item', flag),
     Recipe:        async (id, lang, flag) => await Scraper(id, lang, 'recipe', flag),
     MaterialGroup: async (id, lang, flag) => await Scraper(id, lang, 'materialgroup', flag),
