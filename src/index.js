@@ -126,9 +126,7 @@ const search = async (term, lang = DEFAULT_LANG, popularity_flag = true) => {
 }
 
 module.exports = {
-    LANGS:         Enums.LANGS,
-    TYPES:         Enums.TYPES,
-    SEARCH_TYPES:  Enums.SEARCH_TYPES,
+    Enums:         { LANGS: Enums.LANGS, TYPES: Enums.TYPES},
     Search:        search,
     Scraper:       Scraper,
     Item:          (id, lang, flag) => Scraper(id, lang, 'item', flag),
