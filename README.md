@@ -28,10 +28,10 @@ npm install bdo-scraper
 **You can read more about the project by reading the [Docs](https://github.com/marceloclp/bdo-scraper/wiki).**
 
 ### Scraping Pages
-Scraping a page is as simple as importing the correct entity and calling the function.
+Scraping a page is as simple as importing the correct entity scraper and calling the function.
 
 ```javascript
-const { Item, Recipe, MaterialGroup, LANGS } = require('bdo-scraper')
+const { Item, Recipe, MaterialGroup, Enums } = require('bdo-scraper')
 
 // Using ES7 async/await syntax.
 async () => {
@@ -39,7 +39,7 @@ async () => {
     const itemData = await Item(9213)
 
     // Or, if you need it in another language, pass a different flag.
-    const itemDataInPortuguese = await Item(9213, LANGS.pt)
+    const itemDataInPortuguese = await Item(9213, Enums.LANGS.pt)
 
     // You can get different types of entities by using a different Scraper.
     const recipeData = await Recipe(122)
@@ -77,14 +77,17 @@ This would return an object like:
 BDOScraper also supports searches now.
 
 ```javascript
-const { Search, LANGS } = require('bdo-scraper')
+const { Search, Enums } = require('bdo-scraper')
 
 async () => {
     // Returns at most 10 of the most popular results that match the search term.
     const dataPopular = await Search('beer')
 
     // When passing `false` to the third parameter, all results that match the search term will be returned.
-    const dataAll = await Search('beer', LANGS.en, false)
+    const dataAll = await Search('beer', Enums.LANGS.en, false)
+
+    // You can scrape the item directly from the results.
+    const itemData = await dataAll[0].scrape()
 
     console.log(dataAll) // Output below
 }
@@ -95,20 +98,22 @@ This would return an object like:
 ```json
 [
   {
-    "name":  "Beer",
-    "id":    9213,
-    "grade": 1,
-    "type":  "Item",
-    "link":  "/us/item/9213/",
-    "icon":  "/items/new_icon/03_etc/07_productmaterial/00009213.png"
+    "name":   "Beer",
+    "id":     9213,
+    "grade":  1,
+    "type":   "Item",
+    "link":   "/us/item/9213/",
+    "icon":   "/items/new_icon/03_etc/07_productmaterial/00009213.png",
+    "scrape": "__function__"
   },
   {
-    "name":  "Cold Draft Beer",
-    "id":    9283,
-    "grade": 2,
-    "type":  "Item",
-    "link":  "/us/item/9283/",
-    "icon":  "/items/new_icon/03_etc/07_productmaterial/00009283.png"
+    "name":   "Cold Draft Beer",
+    "id":     9283,
+    "grade":  2,
+    "type":   "Item",
+    "link":   "/us/item/9283/",
+    "icon":   "/items/new_icon/03_etc/07_productmaterial/00009283.png",
+    "scrape": "__function__"
   },
   ...
 ]
