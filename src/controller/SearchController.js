@@ -3,7 +3,7 @@ const Controller = require('./Controller')
 class SearchController extends Controller {
     constructor(lang, term) {
         super(null, lang, null)
-        this._term = term
+        this._term = encodeURIComponent(term)
     }
 
     get(flag) {
