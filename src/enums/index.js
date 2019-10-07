@@ -1,4 +1,6 @@
 module.exports = {
-    itemType: require('./itemType'),
-    LANGS:    require('./langs'),
+    LANGS:        require('./langs'),
+    TYPES:        require('./scraperType'),
+    SEARCH_TYPES: require('./searchType'),
+    ENTITY_TYPES: require('./entityType'),
 }

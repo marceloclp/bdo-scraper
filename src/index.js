@@ -2,14 +2,16 @@ const request = require('request-promise')
 const cheerio = require('cheerio')
 const Parser  = require('./Parser')
 const Util    = require('./util')
-const { itemType, LANGS } = require('./enums')
-const { MainController, SearchController }  = require('./controller')
+const Enums   = require('./enums')
+const Ctrls   = require('./controller')
 
-const Scraper = async (id, lang, type = LANGS.en, full_data_flag = true) => {
+const DEFAULT_LANG = Enums.LANGS.en
+
+const Scraper = async (id, lang, type = DEFAULT_LANG, full_data_flag = true) => {
     if (isNaN(parseInt(id)))
         throw `id has to be a valid number.`
-    if (typeof lang !== `string` || !Object.values(LANGS).includes(lang))
-        throw `lang has to be one of ${Object.values(LANGS)}.`
+    if (typeof lang !== `string` || !Object.values(Enums.LANGS).includes(lang))
+        throw `lang has to be one of ${Object.values(Enums.LANGS)}.`
 
     const $ = await load(id, lang, type)
     if (!$) return null
@@ -18,7 +20,7 @@ const Scraper = async (id, lang, type = LANGS.en, full_data_flag = true) => {
 }
 
 const load = async (id, lang, type) => {
-    const uri  = new MainController(id, lang, type).get()
+    const uri  = new Ctrls.MainController(id, lang, type).get()
     const html = await request(uri)
     const $    = cheerio.load(html)
 
@@ -49,27 +51,27 @@ const buildResponse = async ($, id, lang, type, full_data_flag) => {
     res.type  = p.getType()
 
     switch(type) {
-        case 'item':
+        case Enums.TYPES.item:
             res.weight         = p.getWeight()
             res.description    = p.getDescription()
             res.p_transaction  = p.getPersonalTransaction()
             res.prices         = p.getPrices()
             break
 
-        case 'recipe':
+        case Enums.TYPES.recipe:
             res.materials      = p.getCraftingMaterials()
             res.results        = p.getCraftingResults()
             res.skill_lvl      = p.getSkillLvl()
             res.r_type         = p.getRecipeType()
             break
 
-        case 'materialgroup':
+        case Enums.TYPES.materialGroup:
             res.materials      = p.getMaterialGroup()
             res.icon           = res.materials[0].icon
             break
     }
 
-    switch(itemType(lang, p.getType())) {
+    switch(Enums.ENTITY_TYPES[p.getType()]) {
         case 'equipment':
             res.effects        = p.getEquipmentEffects()
             res.durability     = p.getDurability()
@@ -85,39 +87,50 @@ const buildResponse = async ($, id, lang, type, full_data_flag) => {
             res.cooldown       = p.getCooldown()
             break
     }
+
     return res
 }
 
-const search = async (term, lang = LANGS.en, popularity_flag = true) => {
-    const uri = new SearchController(lang, term).get(popularity_flag)
+const search = async (term, lang = DEFAULT_LANG, popularity_flag = true) => {
+    const uri = new Ctrls.SearchController(lang, term).get(popularity_flag)
     const res = await request(uri)
+    let payload
 
-    switch (popularity_flag) {
-        case true:
-            return JSON.parse(res.trim()).map(e => ({
-                name:  e.name,
-                id:    parseInt(e.value),
-                grade: parseInt(e.grade),
-                type:  e.object_type,
-                link:  e.link,
-                icon:  `/${e.icon_path}/${e.icon}`,
-            }))
-
-        case false:
-            return JSON.parse(res.trim()).aaData.map(e => ({
-                name:  Util.substrBetween(e[2], '<b>', '</b>'),
-                id:    parseInt(e[0]),
-                grade: parseInt(Util.substrBetween(e[2], 'item_grade_', '"')),
-                type:  e[4].display,
-                link:  Util.substrBetween(e[2], 'href="', '"'),
-                icon:  Util.substrBetween(e[1], 'src="', '"'),
-            }))
+    if (popularity_flag) {
+        payload = JSON.parse(res.trim()).map(e => ({
+            name:  e.name,
+            id:    parseInt(e.value),
+            grade: parseInt(e.grade),
+            type:  e.object_type,
+            link:  e.link,
+            icon:  `/${e.icon_path}/${e.icon}`,
+        }))
     }
+
+    else {
+        payload = JSON.parse(res.trim()).aaData.map(e => ({
+            name:  Util.substrBetween(e[2], '<b>', '</b>'),
+            id:    parseInt(e[0]),
+            grade: parseInt(Util.substrBetween(e[2], 'item_grade_', '"')),
+            type:  e[4].display,
+            link:  Util.substrBetween(e[2], 'href="', '"'),
+            icon:  Util.substrBetween(e[1], 'src="', '"'),
+        }))
+    }
+
+    payload.forEach(e => {
+        e.scrape = (f) => Scraper(e.id, lang, Enums.SEARCH_TYPES[e.type], f)
+    })
+
+    return payload
 }
 
 module.exports = {
-    LANGS,
+    LANGS:         Enums.LANGS,
+    TYPES:         Enums.TYPES,
+    SEARCH_TYPES:  Enums.SEARCH_TYPES,
     Search:        search,
+    Scraper:       Scraper,
     Item:          async (id, lang, flag) => await Scraper(id, lang, 'item', flag),
     Recipe:        async (id, lang, flag) => await Scraper(id, lang, 'recipe', flag),
     MaterialGroup: async (id, lang, flag) => await Scraper(id, lang, 'materialgroup', flag),
