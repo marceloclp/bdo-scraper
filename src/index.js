@@ -7,7 +7,7 @@ const Ctrls   = require('./controller')
 
 const DEFAULT_LANG = Enums.LANGS.en
 
-const Scraper = async (id, lang, type = DEFAULT_LANG, full_data_flag = true) => {
+const Scraper = async (id, lang = DEFAULT_LANG, type, full_data_flag = true) => {
     if (isNaN(parseInt(id)))
         throw `id has to be a valid number.`
     if (typeof lang !== `string` || !Object.values(Enums.LANGS).includes(lang))
