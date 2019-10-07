@@ -131,7 +131,7 @@ module.exports = {
     SEARCH_TYPES:  Enums.SEARCH_TYPES,
     Search:        search,
     Scraper:       Scraper,
-    Item:          async (id, lang, flag) => await Scraper(id, lang, 'item', flag),
-    Recipe:        async (id, lang, flag) => await Scraper(id, lang, 'recipe', flag),
-    MaterialGroup: async (id, lang, flag) => await Scraper(id, lang, 'materialgroup', flag),
+    Item:          (id, lang, flag) => Scraper(id, lang, 'item', flag),
+    Recipe:        (id, lang, flag) => Scraper(id, lang, 'recipe', flag),
+    MaterialGroup: (id, lang, flag) => Scraper(id, lang, 'materialgroup', flag),
 }
