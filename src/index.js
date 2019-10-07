@@ -72,15 +72,15 @@ const buildResponse = async ($, id, lang, type, full_data_flag) => {
     }
 
     switch(Enums.ENTITY_TYPES[p.getType()]) {
-        case 'equipment':
+        case Enums.ITEM_TYPES.equipment:
             res.effects        = p.getEquipmentEffects()
             res.durability     = p.getDurability()
             res.exclusive      = p.getExclusive()
             res.stats          = p.getStats()
             break
 
-        case 'special_items':
-        case 'consumable':
+        case Enums.ITEM_TYPES.specialItems:
+        case Enums.ITEM_TYPES.consumable:
             res.effects        = p.getConsumableEffects()
             res.lifespan       = p.getLifespan()
             res.duration       = p.getDuration()

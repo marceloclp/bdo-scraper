@@ -1,3 +1,5 @@
+const itemTypes = require('./itemType')
+
 const enumObj = {
     us: [
         'Equipment',
@@ -22,14 +24,14 @@ const enumObj = {
 }
 
 const enumArr = [
-    'equipment',
-    'consumable',
-    'special_items',
-    'crafting_materials',
-    'general',
-    'license',
-    'recipe',
-    'materialgroup'
+    itemTypes.equipment,
+    itemTypes.consumable,
+    itemTypes.specialItems,
+    itemTypes.craftingMaterial,
+    itemTypes.general,
+    itemTypes.license,
+    itemTypes.recipe,
+    itemTypes.materialGroup,
 ]
 
 module.exports = Object.keys(enumObj).reduce((Enum, lang) => {
