@@ -13,10 +13,10 @@ const Scraper = async (id, lang = DEFAULT_LANG, type, full_data_flag = true) => 
     if (typeof lang !== `string` || !Object.values(Enums.LANGS).includes(lang))
         throw `lang has to be one of ${Object.values(Enums.LANGS)}.`
 
-    const $ = await load(id, lang, type)
+    const [$, uri] = await load(id, lang, type)
     if (!$) return null
 
-    return await buildResponse($, id, lang, type, full_data_flag)
+    return await buildResponse($, id, lang, type, full_data_flag, uri)
 }
 
 const load = async (id, lang, type) => {
@@ -25,11 +25,11 @@ const load = async (id, lang, type) => {
     const $    = cheerio.load(html)
 
     if ($(`#item_info_row`).children().length)
-        return $
-    return null
+        return [$, uri]
+    return [null]
 }
 
-const buildResponse = async ($, id, lang, type, full_data_flag) => {
+const buildResponse = async ($, id, lang, type, full_data_flag, uri) => {
     const p   = new Parser($, lang, id)
     const res = {}
 
@@ -45,6 +45,7 @@ const buildResponse = async ($, id, lang, type, full_data_flag) => {
 
     // Common to all entities.
     res.id    = id
+    res.url   = uri
     res.name  = p.getName()
     res.grade = p.getGrade()
     res.icon  = p.getIcon()
@@ -119,7 +120,8 @@ const search = async (term, lang = DEFAULT_LANG, popularity_flag = true) => {
     }
 
     payload.forEach(e => {
-        e.scrape = (f) => Scraper(e.id, lang, Enums.SEARCH_TYPES[e.type], f)
+        e.scrape =
+            (l, f) => Scraper(e.id, l || lang, Enums.SEARCH_TYPES[e.type], f)
     })
 
     return payload
