@@ -1,4 +1,7 @@
 # BDO Scraper
+
+**Support for this project has been dropped: visit this [repo](https://github.com/marceloclp/calpheonjs) instead!**
+
 BDOScraper is a web scraper developed for [BDDatabase](https://bddatabase.net/). It used to support [BDOCodex](http://bdocodex.com/) previously. Currently supports the english language, and portuguese partially.
 
 - [BDO Scraper](#bdo-scraper)
